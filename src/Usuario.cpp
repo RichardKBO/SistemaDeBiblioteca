@@ -3,19 +3,78 @@
 #include <stdexcept>
 #include <iostream>
 #include <algorithm>
+#include <cctype>
 
 #include "Livro.h"
 
-Usuario::Usuario(const std::string &nome, const std::string &cpf)
-    :nome(nome), cpf(cpf)
+
+bool cpfValido(const std::string& cpf)
+{
+    if (cpf.length() != 11)
+    {
+        return false;
+    }
+
+    return std::all_of(cpf.begin(), cpf.end(), [](char caractere)
+    {
+        return std::isdigit(static_cast<unsigned char>(caractere));
+    });
+    {
+        return false;
+    }
+    int soma = 0;
+
+    for (int i = 0; i < 9; ++i)
+    {
+        soma += (cpf[i] - '0') * (10 - i);
+    }
+    int primeiroDigito = (soma * 10) % 11;
+
+    if (primeiroDigito == 10)
+    {
+        primeiroDigito = 0;
+    }
+    
+    if (primeiroDigito != cpf[9] - '0')
+    {
+        return false;
+    }
+
+    soma = 0;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        soma += (cpf[i] - '0') * (11 - i);
+    }
+
+    int segundoDigito = 0;
+
+    if (segundoDigito == 10)
+    {
+        segundoDigito = 0;
+    }
+
+    if (segundoDigito != cpf[10] - '0')
+    {
+        return false;
+    }
+    return true;
+}
+
+Usuario::Usuario(const std::string &nome, const std::string &cpf, int numerodecadastro)
+    :nome(nome), cpf(cpf), numeroDeCadastro(numerodecadastro)
 {
     if (nome.empty())
     {
         throw std::invalid_argument("O nome de usuário é obrigatório.");
     }
-    if (cpf.empty())
+    if (!cpfValido(cpf))
     {
         throw std::invalid_argument("O CPF do usuário é obrigatório.");
+    }
+    if (numerodecadastro <= 0)
+    {
+        throw std::invalid_argument("O número de cadastro deve ser maior que zero.");
     }
 }
 
@@ -27,7 +86,14 @@ std::string Usuario::getCpf() const
 {
     return cpf;
 }
+
+int Usuario::getNumeroDeCadastro() const
+{
+    return numeroDeCadastro;
+}
+
 //Lógica de negócio pra Usuário.
+
 void Usuario::adicionarLivro(Livro *livro)
 {
     livrosEmprestados_.push_back(livro);
@@ -52,6 +118,11 @@ bool Usuario::possuiLivro(Livro *livro) const
         livrosEmprestados_.begin(), livrosEmprestados_.end(), livro);
 
     return it != livrosEmprestados_.end();
+}
+
+bool Usuario::possuiLivrosEmprestados() const
+{
+    return !livrosEmprestados_.empty();
 }
 
 void Usuario::listarLivros() const

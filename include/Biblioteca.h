@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-//Essa classe irá gerenciar as outas.
+//Essa classe irá gerenciar as outras.
 
 #include <memory>
 #include <vector>
@@ -12,8 +12,13 @@ class Biblioteca
 {
 private:
     std::vector<std::unique_ptr<Livro>> livros_;
+    std::vector<std::unique_ptr<Usuario>> usuarios_;
 public:
     void adicionarLivro(std::unique_ptr<Livro> livro);
+    void cadastrarUsuario(std::unique_ptr<Usuario> usuario);
+    [[nodiscard]]Usuario* buscarUsuario(int numeroDeCadastro) const;
+    bool removerUsuario(int numeroDeCadastro);
+    void listarUsuarios() const;
 
     void listarLivros() const;
 

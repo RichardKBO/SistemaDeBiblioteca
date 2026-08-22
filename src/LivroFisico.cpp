@@ -22,7 +22,7 @@ void LivroFisico::emprestar()
     }
     else
     {
-        throw std::invalid_argument("Livro indísponivel para empréstimo.");
+        throw std::invalid_argument("Livro indisponível para empréstimo.");
     }
 }
 

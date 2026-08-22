@@ -5,6 +5,7 @@ Livro::Livro(const std::string &titulo, const std::string &autor, const std::str
     :titulo(titulo), autor(autor), ISBN(isbn), disponibilidade(disponibilidade)
 {
     //Verificações e disparada de excepts.
+
     if (titulo.empty())
     {
         throw std::invalid_argument("O título do livro não pode permanecer vazio.");

@@ -9,4 +9,4 @@ cmake-build-*/
 
 # Arquivos de compilação
 *.o
-*.obj
+*.obj   
