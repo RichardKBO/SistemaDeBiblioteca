@@ -281,4 +281,8 @@ O sistema atualmente possui gerenciamento de livros, usuários, empréstimos e d
 
 Richard Kawan Barbosa Oliveira
 
+## 🔗 Contato
+- LinkedIn: https://www.linkedin.com/in/richard-k-b-oliveira-9a1a3b287/
+- Em busca de Estágio em C++ / Desenvolvimento de Software - Remoto ou Ituiutaba/MG
+
 Projeto desenvolvido como prática de aprendizado e aplicação de conceitos de C++ e Programação Orientada a Objetos.
