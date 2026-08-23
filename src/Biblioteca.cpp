@@ -65,7 +65,7 @@ Usuario* Biblioteca::buscarUsuario(int numeroDeCadastro) const // Função pra b
 bool Biblioteca::removerUsuario(int numeroDeCadastro) // Função para remover usuários por número de cadastro.
 {
     /*
-     *Expressão lambda pra percorrer os cadastros e depois de comparar,
+     * Expressão lambda pra percorrer os cadastros e compara,
      * assim removendo o usuário.
      */
     auto it = std::find_if(usuarios_.begin(), usuarios_.end(), [numeroDeCadastro](const auto& usuario)
