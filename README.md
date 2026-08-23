@@ -289,7 +289,7 @@ Projeto desenvolvido como prática de aprendizado e aplicação de conceitos de 
 
 ## 🛠️ Como compilar
 
-Pré-requisitos: C++23, CMake 3.28+
+Pré-requisitos: C++23, CMake 4.3+
 
 mkdir build && cd build
 cmake ..
