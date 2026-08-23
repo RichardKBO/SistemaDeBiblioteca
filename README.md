@@ -1,5 +1,8 @@
 # Sistema de Biblioteca
 
+![C++](https://img.shields.io/badge/C++-23-blue)
+![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-green)
+
 Sistema de gerenciamento de uma biblioteca desenvolvido em C++, com o objetivo de aplicar conceitos de Programação Orientada a Objetos, STL, gerenciamento de memória, herança, polimorfismo, exceções e validação de dados.
 
 ## Objetivo
