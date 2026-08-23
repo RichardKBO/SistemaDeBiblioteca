@@ -286,3 +286,12 @@ Richard Kawan Barbosa Oliveira
 - Em busca de Estágio em C++ / Desenvolvimento de Software - Remoto ou Ituiutaba/MG
 
 Projeto desenvolvido como prática de aprendizado e aplicação de conceitos de C++ e Programação Orientada a Objetos.
+
+## 🛠️ Como compilar
+
+Pré-requisitos: C++23, CMake 3.28+
+
+mkdir build && cd build
+cmake ..
+make
+./SistemaDeBiblioteca
