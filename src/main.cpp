@@ -2,7 +2,8 @@
 #include "LivroFisico.h"
 #include "Ebook.h"
 #include "Usuario.h"
-#include <windows.h>
+
+#include <clocale>
 #include <stdexcept>
 #include <iostream>
 
@@ -130,8 +131,7 @@ void cadastrarLivro(Biblioteca& biblioteca)
 
 int main()
 {
-    SetConsoleCP(CP_UTF8);
-    SetConsoleOutputCP(CP_UTF8);
+    setlocale(LC_ALL, "pt_BR.UTF-8");
 
     Biblioteca biblioteca;
 
