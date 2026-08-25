@@ -151,6 +151,16 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
             std::cout <<"Autor: " << livro->getAutor() <<"\n";
             std::cout <<"ISBN: " << livro->getISBN() <<"\n";
 
+            if (usuario.possuiLivro(livro.get()))
+            {
+                throw std::invalid_argument("O usuário já possui esse livro.");
+            }
+
+            if (!livro->getDisponibilidade())
+            {
+                throw std::invalid_argument("O livro não está disponível.");
+            }
+
             livro->emprestar();
 
             usuario.adicionarLivro(livro.get());
@@ -179,6 +189,7 @@ void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
             {
                 throw std::invalid_argument("O usuário não possui este livro.");
             }
+
             livro->devolver();
 
             usuario.devolverLivro(livro.get());
