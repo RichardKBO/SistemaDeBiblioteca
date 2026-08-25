@@ -23,6 +23,7 @@ public:
     void listarLivros() const;
 
     void emprestarLivro(const std::string& isbn, Usuario& usuario);
+    bool removerLivro(const std::string& isbn);
     void devolverLivro(const std::string& isbn, Usuario& usuario);
     void buscarLivro(const std::string& isbn) const;
 };

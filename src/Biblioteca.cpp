@@ -173,6 +173,27 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
     throw std::invalid_argument("Livro não encontrado.");
 }
 
+bool Biblioteca::removerLivro(const std::string &isbn)
+{
+    auto it = std::find_if(livros_.begin(), livros_.end(), [&isbn](const auto& livro)
+    {
+       return livro->getISBN() == isbn;
+    });
+
+    if (it != livros_.end())
+    {
+        return false;
+    }
+
+    if (!(*it)->getDisponibilidade())
+    {
+        throw std::invalid_argument("O livro está emprestado e não pode ser removido.");
+    }
+
+    livros_.erase(it);
+
+    return true;
+}
 
 void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
 {
