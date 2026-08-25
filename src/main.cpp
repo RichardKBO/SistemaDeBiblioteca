@@ -158,6 +158,7 @@ int main()
             std::cout <<"7. Cadastrar usuário." <<"\n";
             std::cout <<"8. Listar usuário." <<"\n";
             std::cout <<"9. Remover usuário." <<"\n";
+            std::cout <<"10. Remover livro." <<"\n";
             std::cout <<"0. Sair." <<"\n";
             std::cout <<"Escolha uma opção: " <<"\n";
             std::cin >> opcao;
@@ -261,6 +262,24 @@ int main()
 
                     break;
 
+                case 10:
+                {
+                    std::string isbn;
+
+                    std::cout <<"Digite o ISBN: ";
+                    std::getline(std::cin >> std::ws, isbn);
+
+                    if (biblioteca.removerLivro(isbn))
+                    {
+                        std::cout <<"Livro removido com sucesso." <<"\n";
+                    }
+                    else
+                    {
+                        std::cout <<"Livro não encontrado." <<"\n";
+                    }
+
+                    break;
+                }
                 case 0:
 
                     break;
