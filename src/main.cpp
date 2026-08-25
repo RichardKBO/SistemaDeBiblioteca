@@ -249,6 +249,7 @@ int main()
                     std::cout <<"Digite o número de cadastro: ";
                     std::cin >> numeroDeCadastro;
 
+
                     if (biblioteca.removerUsuario(numeroDeCadastro))
                     {
                         std::cout <<"Usuário removido com sucesso." <<"\n";
@@ -259,7 +260,7 @@ int main()
                     }
 
                     break;
-                    
+
                 case 0:
 
                     break;
