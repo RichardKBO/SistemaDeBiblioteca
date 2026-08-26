@@ -156,6 +156,11 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
                 throw std::invalid_argument("O usuário já possui esse livro.");
             }
 
+            if (!usuario.podeEmprestarLivro())
+            {
+                throw std::invalid_argument("O usuário atingiu o limite de 3 livros emprestados.");
+            }
+
             if (!livro->getDisponibilidade())
             {
                 throw std::invalid_argument("O livro não está disponível.");

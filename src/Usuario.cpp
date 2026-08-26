@@ -125,6 +125,11 @@ bool Usuario::possuiLivrosEmprestados() const
     return !livrosEmprestados_.empty();
 }
 
+bool Usuario::podeEmprestarLivro() const
+{
+    return livrosEmprestados_.size() < 3;
+}
+
 void Usuario::listarLivros() const
 {
     for (const auto& livro : livrosEmprestados_)
