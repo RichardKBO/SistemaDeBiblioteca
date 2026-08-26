@@ -28,6 +28,7 @@ public:
     bool devolverLivro(Livro* livro);
     bool possuiLivro(Livro* livro) const;
     bool possuiLivrosEmprestados() const;
+    bool podeEmprestarLivro() const;
 
     void listarLivros() const;
 };
