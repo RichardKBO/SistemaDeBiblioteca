@@ -1,11 +1,13 @@
 ﻿#include "Biblioteca.h"
 #include "Usuario.h"
+#include "Emprestimo.h"
 
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <stdexcept>
 #include <algorithm>
+#include <chrono>
 
 //Lógica pra gerenciamento das classes.
 
@@ -140,6 +142,23 @@ void Biblioteca::buscarLivro(const std::string &isbn) const
     throw std::invalid_argument("O livro não foi encontrado.");
 }
 
+void Biblioteca::listarHistorico() const
+{
+    std::cout <<"===============================================\n";
+    std::cout <<"HISTÓRICO DE EMPRÉSTIMOS\n";
+    std::cout <<"===============================================\n";
+
+    for (const auto& emprestimo : historico_)
+    {
+        std::cout <<"Número de cadastro: " << emprestimo.getNumeroDeCadastroUsuario() <<"\n";
+        std ::cout <<"ISBN: " << emprestimo.getIsbn() <<"\n";
+        std::cout <<"Data de empréstimo: " << emprestimo.getDataEmprestimo() <<"\n";
+        std::cout <<"Data de devolução: " << emprestimo.getDataDevolucao() <<"\n";
+
+        std::cout <<"===============================================\n";
+    }
+}
+
 void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
 {
     for (const auto& livro : livros_)
@@ -170,6 +189,12 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
 
             usuario.adicionarLivro(livro.get());
 
+            historico_.emplace_back(
+                usuario.getNumeroDeCadastro(),
+                livro->getISBN(),
+                "26/08/2026"
+                );
+
             std::cout <<"===============================================\n";
 
             return;
@@ -185,7 +210,7 @@ bool Biblioteca::removerLivro(const std::string &isbn)
        return livro->getISBN() == isbn;
     });
 
-    if (it != livros_.end())
+    if (it == livros_.end())
     {
         return false;
     }
@@ -198,6 +223,21 @@ bool Biblioteca::removerLivro(const std::string &isbn)
     livros_.erase(it);
 
     return true;
+}
+
+Emprestimo *Biblioteca::buscarEmprestimo(int numeroDeCadastroUsuario, const std::string &isbn)
+{
+    for (auto& emprestimo : historico_)
+    {
+        if (emprestimo.getNumeroDeCadastroUsuario() == numeroDeCadastroUsuario &&
+            emprestimo.getIsbn() == isbn &&
+            emprestimo.getDataDevolucao().empty()
+            )
+        {
+            return &emprestimo;
+        }
+    }
+    throw std::invalid_argument("Empréstimo não encontrado.");
 }
 
 void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
@@ -215,6 +255,9 @@ void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
             {
                 throw std::invalid_argument("O usuário não possui este livro.");
             }
+
+            Emprestimo* emprestimo = buscarEmprestimo(usuario.getNumeroDeCadastro(), isbn);
+            emprestimo->registrarDevolucao("26/08/2026");
 
             livro->devolver();
 

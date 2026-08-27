@@ -159,6 +159,7 @@ int main()
             std::cout <<"8. Listar usuário." <<"\n";
             std::cout <<"9. Remover usuário." <<"\n";
             std::cout <<"10. Remover livro." <<"\n";
+            std::cout <<"11. Listar histórico de empréstimos." <<"\n";
             std::cout <<"0. Sair." <<"\n";
             std::cout <<"Escolha uma opção: " <<"\n";
             std::cin >> opcao;
@@ -280,6 +281,10 @@ int main()
 
                     break;
                 }
+                case 11:
+                    biblioteca.listarHistorico();
+
+                    break;
                 case 0:
 
                     break;

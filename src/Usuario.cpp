@@ -61,8 +61,8 @@ bool cpfValido(const std::string& cpf)
     return true;
 }
 
-Usuario::Usuario(const std::string &nome, const std::string &cpf, int numerodecadastro)
-    :nome(nome), cpf(cpf), numeroDeCadastro(numerodecadastro)
+Usuario::Usuario(const std::string &nome, const std::string &cpf, int numeroDeCadastro)
+    :nome(nome), cpf(cpf), numeroDeCadastro(numeroDeCadastro)
 {
     if (nome.empty())
     {
@@ -72,7 +72,7 @@ Usuario::Usuario(const std::string &nome, const std::string &cpf, int numerodeca
     {
         throw std::invalid_argument("O CPF do usuário é obrigatório.");
     }
-    if (numerodecadastro <= 0)
+    if (numeroDeCadastro <= 0)
     {
         throw std::invalid_argument("O número de cadastro deve ser maior que zero.");
     }
