@@ -11,6 +11,8 @@ add_executable(SistemaDeBiblioteca
         src/LivroFisico.cpp
         src/Ebook.cpp
         src/Usuario.cpp
+        include/Emprestimo.h
+        src/Emprestimo.cpp
 )
 
 target_include_directories(SistemaDeBiblioteca PRIVATE

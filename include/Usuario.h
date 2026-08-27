@@ -18,7 +18,7 @@ private:
     int numeroDeCadastro;
     std::vector<Livro*> livrosEmprestados_; //Collection com ponteiro de referência.
 public:
-    Usuario(const std::string& nome, const std::string& cpf, int numerodecadastro);
+    Usuario(const std::string& nome, const std::string& cpf, int numeroDeCadastro);
 
     [[nodiscard]] std::string getNome() const;
     [[nodiscard]] std::string getCpf() const;
