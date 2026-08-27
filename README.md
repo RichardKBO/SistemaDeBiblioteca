@@ -1,297 +1,152 @@
-# Sistema de Biblioteca
+# 📚 Sistema de Biblioteca
 
 ![C++](https://img.shields.io/badge/C++-23-blue)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-green)
 
-Sistema de gerenciamento de uma biblioteca desenvolvido em C++, com o objetivo de aplicar conceitos de Programação Orientada a Objetos, STL, gerenciamento de memória, herança, polimorfismo, exceções e validação de dados.
+Sistema de gerenciamento de uma biblioteca desenvolvido em C++, com o objetivo de aplicar conceitos de Programação Orientada a Objetos, STL, gerenciamento de memória, herança, polimorfismo, exceções, validação de dados, regras de negócio e gerenciamento de empréstimos.
 
-## Objetivo
+O projeto está sendo desenvolvido de forma incremental, utilizando **Issues, Branches, Commits e Pull Requests** para organizar a evolução do sistema.
 
-O sistema permite realizar operações básicas de gerenciamento de livros e usuários, incluindo:
+---
 
-* Cadastro de livros físicos e ebooks
-* Listagem de livros
-* Busca de livros por ISBN
-* Empréstimo de livros
-* Devolução de livros
-* Cadastro de usuários
-* Listagem de usuários
-* Busca de usuários
-* Remoção de usuários
-* Controle de disponibilidade dos livros
-* Controle de livros emprestados por usuário
-* Validação de dados
+## 🎯 Objetivo
 
-## Tecnologias
+O sistema permite realizar operações de gerenciamento de livros, usuários e empréstimos, incluindo:
 
-* C++
-* C++23
-* CMake
-* CLion
-* Standard Template Library (STL)
+- Cadastro de livros físicos e ebooks
+- Listagem de livros
+- Busca de livros por ISBN
+- Empréstimo de livros
+- Devolução de livros
+- Cadastro de usuários
+- Listagem de usuários
+- Busca de usuários
+- Remoção de usuários
+- Remoção de livros
+- Controle de disponibilidade dos livros
+- Controle de livros emprestados por usuário
+- Limite de empréstimos por usuário
+- Histórico de empréstimos
+- Validação de dados
+- Tratamento de exceções
 
-## Estrutura do sistema
+---
 
-### Livro
+## 🛠️ Tecnologias
+
+- C++
+- C++23
+- CMake
+- CLion
+- Standard Template Library (STL)
+
+---
+
+# 🏗️ Estrutura do sistema
+
+## 📖 Livro
 
 Classe base responsável pelas características comuns dos livros.
 
 Principais atributos:
 
-* Título
-* Autor
-* ISBN
-* Disponibilidade
+- Título
+- Autor
+- ISBN
+- Disponibilidade
 
 A classe utiliza polimorfismo para permitir diferentes tipos de livros.
 
-### LivroFisico
+Principais operações:
+
+- Emprestar livro
+- Devolver livro
+- Mostrar detalhes
+- Consultar disponibilidade
+
+---
+
+## 📕 LivroFisico
 
 Classe derivada de `Livro`.
 
 Possui como característica específica:
 
-* Quantidade de páginas
+- Quantidade de páginas
 
-### Ebook
+---
+
+## 💻 Ebook
 
 Classe derivada de `Livro`.
 
 Possui como característica específica:
 
-* Tamanho do arquivo
+- Tamanho do arquivo
 
-### Usuario
+---
+
+## 👤 Usuario
 
 Representa um usuário cadastrado no sistema.
 
 Possui:
 
-* Nome
-* CPF
-* Número de cadastro
-* Livros emprestados
+- Nome
+- CPF
+- Número de cadastro
+- Livros emprestados
 
 Principais operações:
 
-* Adicionar livro
-* Devolver livro
-* Verificar posse de livro
-* Listar livros emprestados
+- Adicionar livro
+- Devolver livro
+- Verificar posse de livro
+- Listar livros emprestados
+- Verificar se pode realizar novo empréstimo
+- Verificar se possui livros emprestados
 
-### Biblioteca
+### Limite de empréstimos
 
-Responsável pelo gerenciamento dos livros e usuários.
+Cada usuário pode possuir no máximo **3 livros emprestados simultaneamente**.
+
+Caso o limite seja atingido, o sistema lança uma exceção e impede um novo empréstimo.
+
+---
+
+## 🏛️ Biblioteca
+
+Classe responsável pelo gerenciamento dos livros, usuários e empréstimos.
 
 Principais operações:
 
-* Adicionar livro
-* Cadastrar usuário
-* Buscar usuário
-* Remover usuário
-* Listar usuários
-* Listar livros
-* Buscar livro
-* Emprestar livro
-* Devolver livro
+- Adicionar livro
+- Cadastrar usuário
+- Buscar usuário
+- Remover usuário
+- Listar usuários
+- Listar livros
+- Buscar livro
+- Remover livro
+- Emprestar livro
+- Devolver livro
+- Buscar empréstimo
+- Listar histórico de empréstimos
 
-## Gerenciamento de memória
+---
 
-O sistema utiliza `std::unique_ptr` para representar a propriedade dos objetos.
+## 📋 Emprestimo
 
-Exemplo:
+Classe responsável por representar um empréstimo realizado no sistema.
 
-```cpp
-biblioteca.adicionarLivro(
-    std::make_unique<LivroFisico>(
-        "Jurassic Park",
-        "Michael Crichton",
-        "ISBN-13. 978-8576572152",
-        true,
-        528
-    )
-);
-```
+Cada empréstimo possui:
 
-Os livros são armazenados pela biblioteca através de:
+- Número de cadastro do usuário
+- ISBN do livro
+- Data do empréstimo
+- Data de devolução
+
+A biblioteca mantém um histórico através de:
 
 ```cpp
-std::vector<std::unique_ptr<Livro>>
-```
-
-Os usuários seguem o mesmo princípio de gerenciamento de propriedade.
-
-## Empréstimos
-
-Quando um livro é emprestado:
-
-1. O sistema procura o livro pelo ISBN.
-2. O livro verifica sua disponibilidade.
-3. O livro é marcado como indisponível.
-4. O livro é associado ao usuário.
-5. O usuário passa a possuir o livro em sua lista de empréstimos.
-
-Quando o livro é devolvido:
-
-1. O sistema procura o livro pelo ISBN.
-2. Verifica se o usuário possui o livro.
-3. O livro volta a ficar disponível.
-4. O livro é removido da lista de empréstimos do usuário.
-
-O sistema impede que um livro indisponível seja emprestado novamente.
-
-## Validação de usuários
-
-O cadastro de usuários possui algumas regras de validação.
-
-### Nome
-
-O nome não pode estar vazio.
-
-### Número de cadastro
-
-O número de cadastro deve ser maior que zero e não pode estar associado a outro usuário.
-
-### CPF
-
-O CPF deve:
-
-* Possuir exatamente 11 caracteres.
-* Conter somente números.
-* Possuir dígitos verificadores válidos.
-* Não estar associado a outro usuário.
-
-A validação dos caracteres utiliza `std::all_of`:
-
-```cpp
-std::all_of(
-    cpf.begin(),
-    cpf.end(),
-    [](char caractere)
-    {
-        return std::isdigit(
-            static_cast<unsigned char>(caractere)
-        );
-    }
-);
-```
-
-## Validação de livros
-
-O ISBN é utilizado como identificador do livro.
-
-O sistema realiza a busca através do ISBN e impede o cadastro de livros com identificadores duplicados.
-
-## Interface
-
-O sistema possui uma interface de console com as seguintes operações:
-
-```text
-1. Listar livros.
-2. Buscar livro.
-3. Emprestar livro.
-4. Devolver livro.
-5. Listar meus livros.
-6. Cadastrar livro.
-7. Cadastrar usuário.
-8. Listar usuários.
-```
-
-As operações são protegidas por tratamento de exceções:
-
-```cpp
-try
-{
-    // operação
-}
-catch (const std::invalid_argument& e)
-{
-    std::cerr << "Erro: " << e.what() << "\n";
-}
-```
-
-## Conceitos praticados
-
-Durante o desenvolvimento foram utilizados os seguintes conceitos:
-
-* Classes
-* Encapsulamento
-* Herança
-* Polimorfismo
-* Classes abstratas
-* Métodos virtuais
-* `override`
-* Referências
-* Ponteiros
-* `std::unique_ptr`
-* `std::make_unique`
-* `std::vector`
-* Lambdas
-* `std::find`
-* `std::find_if`
-* `std::all_of`
-* Iteradores
-* Algoritmos da STL
-* Exceções
-* `const`
-* Separação entre arquivos `.h` e `.cpp`
-* Separação de responsabilidades
-* Regras de negócio
-* Validação de dados
-
-## Próximos passos
-
-O próximo objetivo do desenvolvimento é melhorar o gerenciamento de usuários.
-
-Uma das próximas regras será impedir que um usuário seja removido enquanto possuir livros emprestados.
-
-Regra:
-
-```text
-Remover usuário
-      |
-      v
-Possui livros emprestados?
-      |
-   +--+--+
-   |     |
-  Sim   Não
-   |     |
- Erro   Remover
-```
-
-Outras melhorias planejadas:
-
-* Melhorar a interface do console.
-* Melhorar a validação de entradas.
-* Permitir seleção dinâmica de usuários.
-* Adicionar confirmações para operações destrutivas.
-* Implementar persistência dos dados.
-* Melhorar a separação entre interface e lógica de negócio.
-* Adicionar testes automatizados.
-* Avaliar a utilização de banco de dados em versões futuras.
-
-## Status
-
-Versão 2.0 — Em desenvolvimento.
-
-O sistema atualmente possui gerenciamento de livros, usuários, empréstimos e devoluções, além de validações básicas e matemáticas para os dados dos usuários.
-
-## Autor
-
-Richard Kawan Barbosa Oliveira
-
-## 🔗 Contato
-- LinkedIn: https://www.linkedin.com/in/richard-k-b-oliveira-9a1a3b287/
-- Em busca de Estágio em C++ / Desenvolvimento de Software - Remoto ou Ituiutaba/MG
-
-Projeto desenvolvido como prática de aprendizado e aplicação de conceitos de C++ e Programação Orientada a Objetos.
-
-## 🛠️ Como compilar
-
-Pré-requisitos: C++23, CMake 4.3+
-
-mkdir build && cd build
-cmake ..
-make
-./SistemaDeBiblioteca
+std::vector<Emprestimo>
