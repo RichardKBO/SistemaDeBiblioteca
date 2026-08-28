@@ -17,38 +17,39 @@
  * Versão 2.0.
  */
 
-void cadastrarUsuario(Biblioteca& biblioteca)
+void cadastrarUsuario(Biblioteca &biblioteca)
 {
     int opcao;
 
-    std::cout <<"=== CADASTRAR USUÁRIO ===\n";
+    std::cout << "=== CADASTRAR USUÁRIO ===\n";
 
-    std::cout <<"1. Cadastrar." <<"\n";
-    std::cout <<"0. Sair." <<"\n";
-    std::cout <<"Escolha uma opção: ";
+    std::cout << "1. Cadastrar." << "\n";
+    std::cout << "0. Sair." << "\n";
+    std::cout << "Escolha uma opção: ";
     std::cin >> opcao;
 
     switch (opcao)
     {
-        case 1: {
+        case 1:
+        {
             std::string nome;
             std::string cpf;
             int numerodecadastro;
 
-            std::cout <<"=== CADASTRO DE USUÁRIO ===\n";
+            std::cout << "=== CADASTRO DE USUÁRIO ===\n";
 
-            std::cout <<"Digite o nome de usuário: ";
+            std::cout << "Digite o nome de usuário: ";
             std::getline(std::cin >> std::ws, nome);
 
-            std::cout <<"Digite o CPF do usuário: ";
+            std::cout << "Digite o CPF do usuário: ";
             std::cin >> cpf;
 
-            std::cout <<"Digite o cadastro de usuário: ";
+            std::cout << "Digite o cadastro de usuário: ";
             std::cin >> numerodecadastro;
 
             biblioteca.cadastrarUsuario(std::make_unique<Usuario>(nome, cpf, numerodecadastro));
 
-            std::cout <<"Usuário cadastrado." <<"\n";
+            std::cout << "Usuário cadastrado." << "\n";
 
             break;
         }
@@ -58,15 +59,15 @@ void cadastrarUsuario(Biblioteca& biblioteca)
 }
 
 
-void cadastrarLivro(Biblioteca& biblioteca)
+void cadastrarLivro(Biblioteca &biblioteca)
 {
     int tipo;
 
-    std::cout <<"\n";
-    std::cout <<"==== CADASTRAR LIVRO ====\n";
-    std::cout <<"1 - Livro físico." <<"\n";
-    std::cout <<"2 - Ebook." <<"\n";
-    std::cout <<"Escolha um tipo: " <<"\n";
+    std::cout << "\n";
+    std::cout << "==== CADASTRAR LIVRO ====\n";
+    std::cout << "1 - Livro físico." << "\n";
+    std::cout << "2 - Ebook." << "\n";
+    std::cout << "Escolha um tipo: " << "\n";
     std::cin >> tipo;
 
     switch (tipo)
@@ -78,49 +79,50 @@ void cadastrarLivro(Biblioteca& biblioteca)
             std::string isbn;
             int paginas;
 
-            std::cout <<"\n";
+            std::cout << "\n";
 
-            std::cout <<"Digite o título: ";
+            std::cout << "Digite o título: ";
             std::getline(std::cin >> std::ws, titulo);
 
-            std::cout <<"Digite o nome do autor: ";
+            std::cout << "Digite o nome do autor: ";
             std::getline(std::cin >> std::ws, autor);
 
-            std::cout <<"Digite o ISBN: ";
+            std::cout << "Digite o ISBN: ";
             std::getline(std::cin >> std::ws, isbn);
 
-            std::cout <<"Digite a quantidade de páginas: ";
+            std::cout << "Digite a quantidade de páginas: ";
             std::cin >> paginas;
 
             biblioteca.adicionarLivro(std::make_unique<LivroFisico>(titulo, autor, isbn, true, paginas));
 
-            std::cout <<"Livro cadastrado com sucesso." <<"\n";
+            std::cout << "Livro cadastrado com sucesso." << "\n";
             break;
         }
 
-        case 2: {
+        case 2:
+        {
             std::string titulo;
             std::string autor;
             std::string isbn;
             double tamanhoDoArquivo;
 
-            std::cout <<"\n";
+            std::cout << "\n";
 
-            std::cout <<"Digite o título: ";
+            std::cout << "Digite o título: ";
             std::getline(std::cin >> std::ws, titulo);
 
-            std::cout <<"Digite o nome do autor: ";
+            std::cout << "Digite o nome do autor: ";
             std::getline(std::cin >> std::ws, autor);
 
-            std::cout <<"Digite o ISBN: ";
+            std::cout << "Digite o ISBN: ";
             std::getline(std::cin >> std::ws, isbn);
 
-            std::cout <<"Digite o tamanho do arquivo: ";
+            std::cout << "Digite o tamanho do arquivo: ";
             std::cin >> tamanhoDoArquivo;
 
             biblioteca.adicionarLivro(std::make_unique<Ebook>(titulo, autor, isbn, true, tamanhoDoArquivo));
 
-            std::cout <<"Ebook cadastrado." <<"\n";
+            std::cout << "Ebook cadastrado." << "\n";
             break;
         }
 
@@ -135,10 +137,14 @@ int main()
 
     Biblioteca biblioteca;
 
-    biblioteca.adicionarLivro(std::make_unique<LivroFisico>("Jurassic Park", "Michael Crichton", "ISBN-13. 978-8576572152", true, 528));
-    biblioteca.adicionarLivro(std::make_unique<LivroFisico>("Dom Casmurro", "Machado de Assis", "ISBN-13. 978-8594318602", true, 230));
-    biblioteca.adicionarLivro(std::make_unique<Ebook>("C++ The Programming language", "Bjarne Stroustrup", "ISBN-13. 978-0201889543", true, 1040));
-    biblioteca.adicionarLivro(std::make_unique<Ebook>("Core Java", "Cay S. Horstmann e Gary Cornell", "ISBN-13. 978-8576053576", true, 800));
+    biblioteca.adicionarLivro(
+        std::make_unique<LivroFisico>("Jurassic Park", "Michael Crichton", "ISBN-13. 978-8576572152", true, 528));
+    biblioteca.adicionarLivro(
+        std::make_unique<LivroFisico>("Dom Casmurro", "Machado de Assis", "ISBN-13. 978-8594318602", true, 230));
+    biblioteca.adicionarLivro(std::make_unique<Ebook>("C++ The Programming language", "Bjarne Stroustrup",
+                                                      "ISBN-13. 978-0201889543", true, 1040));
+    biblioteca.adicionarLivro(std::make_unique<Ebook>("Core Java", "Cay S. Horstmann e Gary Cornell",
+                                                      "ISBN-13. 978-8576053576", true, 800));
 
     int opcao;
 
@@ -148,20 +154,20 @@ int main()
         {
             //Adicionado opções pra facilitar navegação pela interface.
 
-            std::cout <<"\n";
-            std::cout <<"1. Listar livros." <<"\n";
-            std::cout <<"2. Buscar livro." <<"\n";
-            std::cout <<"3. Emprestar livro." <<"\n";
-            std::cout <<"4. Devolver livro." <<"\n";
-            std::cout <<"5. Listar meus livros." <<"\n";
-            std::cout <<"6. Cadastrar livro." <<"\n";
-            std::cout <<"7. Cadastrar usuário." <<"\n";
-            std::cout <<"8. Listar usuário." <<"\n";
-            std::cout <<"9. Remover usuário." <<"\n";
-            std::cout <<"10. Remover livro." <<"\n";
-            std::cout <<"11. Listar histórico de empréstimos." <<"\n";
-            std::cout <<"0. Sair." <<"\n";
-            std::cout <<"Escolha uma opção: " <<"\n";
+            std::cout << "\n";
+            std::cout << "1. Listar livros." << "\n";
+            std::cout << "2. Buscar livro." << "\n";
+            std::cout << "3. Emprestar livro." << "\n";
+            std::cout << "4. Devolver livro." << "\n";
+            std::cout << "5. Listar meus livros." << "\n";
+            std::cout << "6. Cadastrar livro." << "\n";
+            std::cout << "7. Cadastrar usuário." << "\n";
+            std::cout << "8. Listar usuário." << "\n";
+            std::cout << "9. Remover usuário." << "\n";
+            std::cout << "10. Remover livro." << "\n";
+            std::cout << "11. Listar histórico de empréstimos." << "\n";
+            std::cout << "0. Sair." << "\n";
+            std::cout << "Escolha uma opção: " << "\n";
             std::cin >> opcao;
 
             switch (opcao)
@@ -176,7 +182,7 @@ int main()
                 {
                     std::string isbn;
 
-                    std::cout <<"Digite o ISBN: ";
+                    std::cout << "Digite o ISBN: ";
                     std::getline(std::cin >> std::ws, isbn);
 
                     biblioteca.buscarLivro(isbn);
@@ -187,13 +193,13 @@ int main()
                     std::string isbn;
                     int numeroDeCadastro;
 
-                    std::cout <<"Digite o ISBN: ";
+                    std::cout << "Digite o ISBN: ";
                     std::getline(std::cin >> std::ws, isbn);
 
-                    std::cout <<"Digite o número de cadastro do usuário: ";
+                    std::cout << "Digite o número de cadastro do usuário: ";
                     std::cin >> numeroDeCadastro;
 
-                    Usuario* usuario = biblioteca.buscarUsuario(numeroDeCadastro);
+                    Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
 
                     biblioteca.emprestarLivro(isbn, *usuario);
 
@@ -205,13 +211,13 @@ int main()
                     std::string isbn;
                     int numeroDeCadastro;
 
-                    std::cout <<"Digite o ISBN: ";
+                    std::cout << "Digite o ISBN: ";
                     std::getline(std::cin >> std::ws, isbn);
 
-                    std::cout <<"Digite o número de cadastro: ";
+                    std::cout << "Digite o número de cadastro: ";
                     std::cin >> numeroDeCadastro;
 
-                    Usuario* usuario = biblioteca.buscarUsuario(numeroDeCadastro);
+                    Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
 
                     biblioteca.devolverLivro(isbn, *usuario);
 
@@ -222,10 +228,10 @@ int main()
                 {
                     int numeroDeCadastro;
 
-                    std::cout <<"Digite o número de cadastro: ";
+                    std::cout << "Digite o número de cadastro: ";
                     std::cin >> numeroDeCadastro;
 
-                    Usuario* usuario = biblioteca.buscarUsuario(numeroDeCadastro);
+                    Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
 
                     usuario->listarLivros();
 
@@ -248,17 +254,16 @@ int main()
                 case 9:
                     int numeroDeCadastro;
 
-                    std::cout <<"Digite o número de cadastro: ";
+                    std::cout << "Digite o número de cadastro: ";
                     std::cin >> numeroDeCadastro;
 
 
                     if (biblioteca.removerUsuario(numeroDeCadastro))
                     {
-                        std::cout <<"Usuário removido com sucesso." <<"\n";
-                    }
-                    else
+                        std::cout << "Usuário removido com sucesso." << "\n";
+                    } else
                     {
-                        std::cout <<"Usuário não encontrado." <<"\n";
+                        std::cout << "Usuário não encontrado." << "\n";
                     }
 
                     break;
@@ -267,16 +272,15 @@ int main()
                 {
                     std::string isbn;
 
-                    std::cout <<"Digite o ISBN: ";
+                    std::cout << "Digite o ISBN: ";
                     std::getline(std::cin >> std::ws, isbn);
 
                     if (biblioteca.removerLivro(isbn))
                     {
-                        std::cout <<"Livro removido com sucesso." <<"\n";
-                    }
-                    else
+                        std::cout << "Livro removido com sucesso." << "\n";
+                    } else
                     {
-                        std::cout <<"Livro não encontrado." <<"\n";
+                        std::cout << "Livro não encontrado." << "\n";
                     }
 
                     break;
@@ -289,13 +293,11 @@ int main()
 
                     break;
             }
-        }
-        catch (const std::invalid_argument& e)
+        } catch (const std::invalid_argument &e)
         {
-            std::cerr <<"Erro: " << e.what() <<"\n";
+            std::cerr << "Erro: " << e.what() << "\n";
         }
     } while (opcao != 0);
 
     return 0;
 }
-

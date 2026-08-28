@@ -9,7 +9,7 @@
 
 
 Ebook::Ebook(const std::string &titulo, const std::string &autor, const std::string &isbn, bool disponibilidade, double tamanhoArquivo)
-    :Livro(titulo, autor, isbn, disponibilidade), tamanhoArquivo(tamanhoArquivo)
+    :Livro(titulo, autor, isbn, disponibilidade),  tamanhoArquivo(tamanhoArquivo)
 {
     if (tamanhoArquivo <= 0)
     {

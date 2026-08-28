@@ -8,7 +8,7 @@
 #include "Livro.h"
 
 
-bool cpfValido(const std::string& cpf)
+bool cpfValido(const std::string &cpf)
 {
     if (cpf.length() != 11)
     {
@@ -34,7 +34,7 @@ bool cpfValido(const std::string& cpf)
     {
         primeiroDigito = 0;
     }
-    
+
     if (primeiroDigito != cpf[9] - '0')
     {
         return false;
@@ -62,7 +62,8 @@ bool cpfValido(const std::string& cpf)
 }
 
 Usuario::Usuario(const std::string &nome, const std::string &cpf, int numeroDeCadastro)
-    :nome(nome), cpf(cpf), numeroDeCadastro(numeroDeCadastro)
+    :nome(nome), cpf(cpf),
+     numeroDeCadastro(numeroDeCadastro)
 {
     if (nome.empty())
     {
@@ -82,6 +83,7 @@ std::string Usuario::getNome() const
 {
     return nome;
 }
+
 std::string Usuario::getCpf() const
 {
     return cpf;
@@ -132,11 +134,10 @@ bool Usuario::podeEmprestarLivro() const
 
 void Usuario::listarLivros() const
 {
-    for (const auto& livro : livrosEmprestados_)
+    for (const auto &livro: livrosEmprestados_)
     {
-        std::cout <<"Título: " << livro->getTitulo() <<"\n";
-        std::cout <<"Autor: " << livro->getAutor() <<"\n";
-        std::cout <<"ISBN: " << livro->getISBN() <<"\n";
+        std::cout << "Título: " << livro->getTitulo() << "\n";
+        std::cout << "Autor: " << livro->getAutor() << "\n";
+        std::cout << "ISBN: " << livro->getISBN() << "\n";
     }
 }
-

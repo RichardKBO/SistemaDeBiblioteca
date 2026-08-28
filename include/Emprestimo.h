@@ -11,14 +11,17 @@ class Emprestimo
 public:
     Emprestimo(
         int numeroDeCadastroUsuario,
-        const std::string& isbn,
-        const std::string& dataEmprestimo
+        const std::string &isbn,
+        const std::string &dataEmprestimo
     );
 
-    void registrarDevolucao(const std::string& dataDevolucao);
+    void registrarDevolucao(const std::string &dataDevolucao);
 
     [[nodiscard]] int getNumeroDeCadastroUsuario() const;
+
     [[nodiscard]] std::string getIsbn() const;
+
     [[nodiscard]] std::string getDataEmprestimo() const;
+
     [[nodiscard]] std::string getDataDevolucao() const;
 };
