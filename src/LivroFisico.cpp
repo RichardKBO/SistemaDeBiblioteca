@@ -4,7 +4,8 @@
 #include <stdexcept>
 
 LivroFisico::LivroFisico(const std::string &titulo, const std::string &autor, const std::string &isbn, bool disponibilidade, int quantidadeDePaginas)
-    :Livro(titulo, autor, isbn, disponibilidade), quantidadeDePaginas(quantidadeDePaginas)
+    :Livro(titulo, autor, isbn, disponibilidade),
+     quantidadeDePaginas(quantidadeDePaginas)
 {
     if (quantidadeDePaginas <= 0)
     {

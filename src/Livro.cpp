@@ -1,8 +1,11 @@
 ﻿#include "Livro.h"
 #include <stdexcept>
 
-Livro::Livro(const std::string &titulo, const std::string &autor, const std::string& isbn, bool disponibilidade)
-    :titulo(titulo), autor(autor), ISBN(isbn), disponibilidade(disponibilidade)
+Livro::Livro(const std::string &titulo, const std::string &autor, const std::string &isbn, bool disponibilidade)
+    : titulo(titulo),
+      autor(autor),
+      ISBN(isbn),
+      disponibilidade(disponibilidade)
 {
     //Verificações e disparada de excepts.
 
@@ -40,10 +43,8 @@ bool Livro::getDisponibilidade() const
     if (disponibilidade == true)
     {
         return "Disponibilidade: Diponível";
-    }
-    else
+    } else
     {
         return "Disponibilidade: Indisponivel";
     }
-
 }

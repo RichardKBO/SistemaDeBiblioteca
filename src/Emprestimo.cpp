@@ -4,10 +4,12 @@
 
 Emprestimo::Emprestimo(
     int numeroDeCadastroUsuario,
-    const std::string& isbn,
-    const std::string& dataEmprestimo
+    const std::string &isbn,
+    const std::string &dataEmprestimo
 )
-    : numeroDeCadastroUsuario_(numeroDeCadastroUsuario), isbn_(isbn), dataEmprestimo_(dataEmprestimo)
+    : numeroDeCadastroUsuario_(numeroDeCadastroUsuario),
+      isbn_(isbn),
+      dataEmprestimo_(dataEmprestimo)
 {
     if (dataEmprestimo.empty())
     {
@@ -30,7 +32,7 @@ std::string Emprestimo::getDataEmprestimo() const
     return dataEmprestimo_;
 }
 
-void Emprestimo::registrarDevolucao(const std::string& dataDevolucao)
+void Emprestimo::registrarDevolucao(const std::string &dataDevolucao)
 {
     if (dataDevolucao.empty())
     {
