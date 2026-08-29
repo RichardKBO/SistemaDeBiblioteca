@@ -6,6 +6,7 @@
 #include <clocale>
 #include <stdexcept>
 #include <iostream>
+#include <limits>
 
 /*
  * Criado por: Richard Kawan Barbosa Oliveira
@@ -17,6 +18,37 @@
  * Versão 2.0.
  */
 
+int lerNumeroInteiro(const std::string& mensagem)
+{
+    int valor;
+
+    std::cout << mensagem;
+
+    if (!(std::cin >> valor))
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        throw std::invalid_argument("Valor inválido.");
+    }
+    return valor;
+}
+
+double lerNumeroDouble(const std::string& mensagem)
+{
+    double valor;
+     std::cout << mensagem;
+
+    if (!(std::cin >> valor))
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        throw std::invalid_argument("Valor inválido.");
+    }
+    return valor;
+}
+
 void cadastrarUsuario(Biblioteca &biblioteca)
 {
     int opcao;
@@ -26,7 +58,13 @@ void cadastrarUsuario(Biblioteca &biblioteca)
     std::cout << "1. Cadastrar." << "\n";
     std::cout << "0. Sair." << "\n";
     std::cout << "Escolha uma opção: ";
-    std::cin >> opcao;
+    if (!(std::cin >> opcao))
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        throw std::invalid_argument("Digite apenas números.");
+    }
 
     switch (opcao)
     {
@@ -44,8 +82,7 @@ void cadastrarUsuario(Biblioteca &biblioteca)
             std::cout << "Digite o CPF do usuário: ";
             std::cin >> cpf;
 
-            std::cout << "Digite o cadastro de usuário: ";
-            std::cin >> numerodecadastro;
+            numerodecadastro = lerNumeroInteiro("Digite o número de cadastro: ");
 
             biblioteca.cadastrarUsuario(std::make_unique<Usuario>(nome, cpf, numerodecadastro));
 
@@ -67,8 +104,8 @@ void cadastrarLivro(Biblioteca &biblioteca)
     std::cout << "==== CADASTRAR LIVRO ====\n";
     std::cout << "1 - Livro físico." << "\n";
     std::cout << "2 - Ebook." << "\n";
-    std::cout << "Escolha um tipo: " << "\n";
-    std::cin >> tipo;
+    tipo = lerNumeroInteiro("Escolha um tipo: ");
+
 
     switch (tipo)
     {
@@ -90,12 +127,17 @@ void cadastrarLivro(Biblioteca &biblioteca)
             std::cout << "Digite o ISBN: ";
             std::getline(std::cin >> std::ws, isbn);
 
-            std::cout << "Digite a quantidade de páginas: ";
-            std::cin >> paginas;
+            paginas = lerNumeroInteiro("Digite o número de páginas: ");
+
+            if (paginas <= 0)
+            {
+                throw std::out_of_range("O número de páginas deve ser maior que zero.");
+            }
 
             biblioteca.adicionarLivro(std::make_unique<LivroFisico>(titulo, autor, isbn, true, paginas));
 
             std::cout << "Livro cadastrado com sucesso." << "\n";
+
             break;
         }
 
@@ -117,8 +159,12 @@ void cadastrarLivro(Biblioteca &biblioteca)
             std::cout << "Digite o ISBN: ";
             std::getline(std::cin >> std::ws, isbn);
 
-            std::cout << "Digite o tamanho do arquivo: ";
-            std::cin >> tamanhoDoArquivo;
+            tamanhoDoArquivo = lerNumeroDouble("Digite o tamanho do arquivo: ");
+
+            if (tamanhoDoArquivo <= 0)
+            {
+                throw std::out_of_range("O tamanho do arquivo precisa ser maior que zero.");
+            }
 
             biblioteca.adicionarLivro(std::make_unique<Ebook>(titulo, autor, isbn, true, tamanhoDoArquivo));
 
@@ -136,15 +182,6 @@ int main()
     setlocale(LC_ALL, "pt_BR.UTF-8");
 
     Biblioteca biblioteca;
-
-    biblioteca.adicionarLivro(
-        std::make_unique<LivroFisico>("Jurassic Park", "Michael Crichton", "ISBN-13. 978-8576572152", true, 528));
-    biblioteca.adicionarLivro(
-        std::make_unique<LivroFisico>("Dom Casmurro", "Machado de Assis", "ISBN-13. 978-8594318602", true, 230));
-    biblioteca.adicionarLivro(std::make_unique<Ebook>("C++ The Programming language", "Bjarne Stroustrup",
-                                                      "ISBN-13. 978-0201889543", true, 1040));
-    biblioteca.adicionarLivro(std::make_unique<Ebook>("Core Java", "Cay S. Horstmann e Gary Cornell",
-                                                      "ISBN-13. 978-8576053576", true, 800));
 
     int opcao;
 
@@ -168,7 +205,19 @@ int main()
             std::cout << "11. Listar histórico de empréstimos." << "\n";
             std::cout << "0. Sair." << "\n";
             std::cout << "Escolha uma opção: " << "\n";
-            std::cin >> opcao;
+            if (!(std::cin >> opcao))
+            {
+                std::cin.clear();
+
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                throw std::invalid_argument("Digite apenas números.");
+            }
+
+            if (opcao < 0 || opcao > 11)
+            {
+                throw std::out_of_range("Opção inválida.");
+            }
 
             switch (opcao)
             {
@@ -191,13 +240,11 @@ int main()
                 case 3:
                 {
                     std::string isbn;
-                    int numeroDeCadastro;
 
                     std::cout << "Digite o ISBN: ";
                     std::getline(std::cin >> std::ws, isbn);
 
-                    std::cout << "Digite o número de cadastro do usuário: ";
-                    std::cin >> numeroDeCadastro;
+                    int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
 
                     Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
 
@@ -209,13 +256,11 @@ int main()
                 case 4:
                 {
                     std::string isbn;
-                    int numeroDeCadastro;
 
                     std::cout << "Digite o ISBN: ";
                     std::getline(std::cin >> std::ws, isbn);
 
-                    std::cout << "Digite o número de cadastro: ";
-                    std::cin >> numeroDeCadastro;
+                    int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
 
                     Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
 
@@ -226,10 +271,7 @@ int main()
 
                 case 5:
                 {
-                    int numeroDeCadastro;
-
-                    std::cout << "Digite o número de cadastro: ";
-                    std::cin >> numeroDeCadastro;
+                    int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
 
                     Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
 
@@ -252,11 +294,8 @@ int main()
 
                     break;
                 case 9:
-                    int numeroDeCadastro;
-
-                    std::cout << "Digite o número de cadastro: ";
-                    std::cin >> numeroDeCadastro;
-
+                {
+                    int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
 
                     if (biblioteca.removerUsuario(numeroDeCadastro))
                     {
@@ -267,6 +306,7 @@ int main()
                     }
 
                     break;
+                }
 
                 case 10:
                 {
@@ -296,6 +336,10 @@ int main()
         } catch (const std::invalid_argument &e)
         {
             std::cerr << "Erro: " << e.what() << "\n";
+        }
+        catch (const std::out_of_range& e)
+        {
+            std::cerr <<"Erro: " << e.what() <<"\n";
         }
     } while (opcao != 0);
 
