@@ -5,8 +5,8 @@
 #include <algorithm>
 #include <cctype>
 
+#include "Interface.h"
 #include "Livro.h"
-
 
 bool cpfValido(const std::string &cpf)
 {
@@ -140,4 +140,9 @@ void Usuario::listarLivros() const
         std::cout << "Autor: " << livro->getAutor() << "\n";
         std::cout << "ISBN: " << livro->getISBN() << "\n";
     }
+}
+
+void Interface::cadastrarUsuario()
+{
+    
 }
