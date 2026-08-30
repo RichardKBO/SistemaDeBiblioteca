@@ -13,6 +13,8 @@ add_executable(SistemaDeBiblioteca
         src/Usuario.cpp
         include/Emprestimo.h
         src/Emprestimo.cpp
+        include/Interface.h
+        src/Interface.cpp
 )
 
 target_include_directories(SistemaDeBiblioteca PRIVATE
