@@ -1,6 +1,7 @@
 ﻿#include "Biblioteca.h"
 #include "Interface.h"
 #include "Usuario.h"
+#include "Exception.h"
 
 #include <clocale>
 #include <stdexcept>
@@ -53,12 +54,12 @@ int main()
 
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-                throw std::invalid_argument("Digite apenas números.");
+                throw EntradaInvalidaException("Digite apenas números.");
             }
 
             if (opcao < 0 || opcao > 11)
             {
-                throw std::out_of_range("Opção inválida.");
+                throw OpcaoInvalidaException("Opção inválida.");
             }
 
             switch (opcao)
@@ -123,11 +124,15 @@ int main()
                 case 0:
                     break;
             }
-        } catch (const std::invalid_argument &e)
+        } catch (const BibliotecaInvalidaException &e)
         {
             std::cerr << "Erro: " << e.what() << "\n";
         }
-        catch (const std::out_of_range& e)
+        catch (const BibliotecaRangeException &e)
+        {
+            std::cerr <<"Erro: " << e.what() <<"\n";
+        }
+        catch (const BibliotecaException& e)
         {
             std::cerr <<"Erro: " << e.what() <<"\n";
         }

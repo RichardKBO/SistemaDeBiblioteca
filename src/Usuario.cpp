@@ -1,4 +1,5 @@
 ﻿#include "Usuario.h"
+#include "Exception.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -71,15 +72,15 @@ Usuario::Usuario(const std::string &nome, const std::string &cpf, int numeroDeCa
 {
     if (nome.empty())
     {
-        throw std::invalid_argument("O nome de usuário é obrigatório.");
+        throw NomeUsuarioInvalidoException("O nome de usuário é obrigatório.");
     }
     if (!cpfValido(cpf))
     {
-        throw std::invalid_argument("O CPF do usuário é obrigatório.");
+        throw CPFInvalidoException("O CPF do usuário é obrigatório.");
     }
     if (numeroDeCadastro <= 0)
     {
-        throw std::invalid_argument("O número de cadastro deve ser maior que zero.");
+        throw NumeroDeCadastroInvalidoException("O número de cadastro deve ser maior que zero.");
     }
 }
 

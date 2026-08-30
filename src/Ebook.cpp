@@ -1,5 +1,6 @@
 ﻿#include "Ebook.h"
-#include <stdexcept>
+#include "Exception.h"
+
 #include <iostream>
 
 /* A lógica é a mesma que da Classe Livro físico
@@ -13,7 +14,7 @@ Ebook::Ebook(const std::string &titulo, const std::string &autor, const std::str
 {
     if (tamanhoArquivo <= 0)
     {
-        throw std::invalid_argument("O tamanho do arquivo deve ser maior que zero.");
+        throw TamanhoArquivoInvalidoException("O tamanho do arquivo deve ser maior que zero.");
     }
 }
 
@@ -25,7 +26,7 @@ void Ebook::emprestar()
     }
     else
     {
-        throw std::invalid_argument("Livro indisponível para empréstimo.");
+        throw LivroIndisponivelException("Livro indisponível para empréstimo.");
     }
 }
 
@@ -37,7 +38,7 @@ void Ebook::devolver()
     }
     else
     {
-        std::cout <<"Livro disponível para empréstimo." << "\n";
+        throw LivroIndisponivelException("Livro indisponíel para empréstimo.");
     }
 }
 
@@ -51,6 +52,6 @@ void Ebook::mostrarDetalhes() const
     }
     else
     {
-        std::cerr <<"Indisponível." <<"\n";
+        throw LivroIndisponivelException("Indisponível");
     }
 }

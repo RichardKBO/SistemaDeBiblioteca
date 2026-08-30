@@ -1,5 +1,5 @@
 ﻿#include "Livro.h"
-#include <stdexcept>
+#include "Exception.h"
 
 Livro::Livro(const std::string &titulo, const std::string &autor, const std::string &isbn, bool disponibilidade)
     : titulo(titulo),
@@ -11,15 +11,15 @@ Livro::Livro(const std::string &titulo, const std::string &autor, const std::str
 
     if (titulo.empty())
     {
-        throw std::invalid_argument("O título do livro não pode permanecer vazio.");
+        throw TituloInvalidoException("O título do livro não pode permanecer vazio.");
     }
     if (autor.empty())
     {
-        throw std::invalid_argument("O nome do autor não pode permanecer vazio.");
+        throw AutorInvalidoException("O nome do autor não pode permanecer vazio.");
     }
     if (isbn.empty())
     {
-        throw std::invalid_argument("O ISBN não pode permanecer vazio.");
+        throw ISBNInvalidoException("O ISBN não pode permanecer vazio.");
     }
 }
 

@@ -1,4 +1,5 @@
 #include "Emprestimo.h"
+#include "Exception.h"
 
 #include <stdexcept>
 
@@ -13,7 +14,7 @@ Emprestimo::Emprestimo(
 {
     if (dataEmprestimo.empty())
     {
-        throw std::invalid_argument("A data de empréstimo não pode ficar vazia.");
+        throw DataEmprestimoInvalidaException("A data de empréstimo não pode ficar vazia.");
     }
 }
 
@@ -36,9 +37,7 @@ void Emprestimo::registrarDevolucao(const std::string &dataDevolucao)
 {
     if (dataDevolucao.empty())
     {
-        throw std::invalid_argument(
-            "A data de devolução não pode permanecer vazia."
-        );
+        throw DataDevolucaoException("A data de devolução não pode permanecer vazia.");
     }
 
     dataDevolucao_ = dataDevolucao;
