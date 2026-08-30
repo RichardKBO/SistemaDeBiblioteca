@@ -27,8 +27,9 @@ O sistema permite realizar operações de gerenciamento de livros, usuários e e
 * Controle de livros emprestados por usuário
 * Limite de empréstimos por usuário
 * Histórico de empréstimos
-* Registro de datas de empréstimo e devolução
+* Registro automático de datas de empréstimo e devolução
 * Validação de dados
+* Hierarquia de exceções customizadas
 * Tratamento de exceções
 
 ---
@@ -75,6 +76,8 @@ Possui como característica específica:
 
 * Quantidade de páginas
 
+A quantidade de páginas possui validação própria através de uma exceção específica.
+
 ---
 
 ## 💻 Ebook
@@ -84,6 +87,8 @@ Classe derivada de `Livro`.
 Possui como característica específica:
 
 * Tamanho do arquivo
+
+O tamanho do arquivo possui validação própria através de uma exceção específica.
 
 ---
 
@@ -134,6 +139,8 @@ Classe responsável pelo gerenciamento dos livros, usuários e empréstimos.
 * Buscar empréstimo
 * Listar histórico de empréstimos
 
+A classe também concentra diversas regras de negócio relacionadas ao relacionamento entre livros, usuários e empréstimos.
+
 ---
 
 ## 📋 Emprestimo
@@ -175,7 +182,7 @@ Após todas as validações:
 2. O livro é associado ao usuário.
 3. O usuário passa a possuir o livro em sua lista de empréstimos.
 4. Um registro de `Emprestimo` é criado.
-5. A data do empréstimo é registrada.
+5. A data atual do sistema é registrada automaticamente.
 
 O sistema impede que um livro indisponível seja emprestado novamente.
 
@@ -188,11 +195,40 @@ Quando um livro é devolvido:
 1. O sistema procura o livro através do ISBN.
 2. Verifica se o usuário possui o livro.
 3. Localiza o empréstimo ativo correspondente ao usuário e ao ISBN.
-4. Registra a data de devolução.
+4. Registra automaticamente a data atual como data de devolução.
 5. O livro volta a ficar disponível.
 6. O livro é removido da lista de empréstimos do usuário.
 
 O registro permanece no histórico após a devolução.
+
+---
+
+# 📅 Gerenciamento de datas
+
+O sistema utiliza a data atual do computador para registrar as operações de empréstimo e devolução.
+
+A função responsável por obter a data atual utiliza recursos da biblioteca padrão do C++:
+
+```cpp
+std::chrono
+std::time
+std::tm
+```
+
+A data é apresentada no formato:
+
+```text
+DD/MM/AAAA
+```
+
+### Exemplo
+
+```text
+Data de empréstimo: 30/08/2026
+Data de devolução: 30/08/2026
+```
+
+Dessa forma, não é necessário que o usuário informe manualmente as datas.
 
 ---
 
@@ -241,7 +277,7 @@ Data de devolução: 27/08/2026
 
 ---
 
-## 🔎 Busca de empréstimo ativo
+# 🔎 Busca de empréstimo ativo
 
 O sistema permite localizar um empréstimo ativo através de:
 
@@ -251,6 +287,86 @@ O sistema permite localizar um empréstimo ativo através de:
 A busca considera apenas empréstimos que ainda não possuem data de devolução.
 
 Isso permite diferenciar um empréstimo atual de registros anteriores do mesmo usuário e livro.
+
+---
+
+# ⚠️ Hierarquia de exceções
+
+O projeto possui uma hierarquia própria de exceções para representar diferentes tipos de erros e regras de negócio.
+
+As exceções específicas herdam de classes base próprias:
+
+```text
+std::exception
+    │
+    ├── std::runtime_error
+    │       │
+    │       └── BibliotecaException
+    │               ├── LivroNaoEncontradoException
+    │               ├── ISBNDuplicadoException
+    │               ├── LivroJaPossuiException
+    │               ├── LimiteEmprestimosException
+    │               ├── LivroIndisponivelException
+    │               ├── EmprestimoNaoEncontradoException
+    │               ├── UsuarioNaoEncontradoException
+    │               ├── UsuarioDuplicadoException
+    │               ├── UsuarioComEmprestimosException
+    │               ├── UsuarioNaoPossuiEsseLivroException
+    │               ├── LivroEmprestadoException
+    │               ├── DataEmprestimoInvalidaException
+    │               ├── NomeUsuarioInvalidoException
+    │               ├── CPFInvalidoException
+    │               ├── NumeroDeCadastroInvalidoException
+    │               ├── TituloInvalidoException
+    │               ├── AutorInvalidoException
+    │               └── ISBNInvalidoException
+    │
+    ├── std::out_of_range
+    │       │
+    │       └── BibliotecaRangeException
+    │               ├── QuantidadeDePaginasInvalidaException
+    │               ├── TamanhoArquivoInvalidoException
+    │               └── OpcaoInvalidaException
+    │
+    └── std::invalid_argument
+            │
+            └── BibliotecaInvalidaException
+                    ├── EntradaInvalidaException
+                    ├── TipoInvalidoException
+                    └── DadoInvalidoException
+```
+
+Essa estrutura permite agrupar exceções por categoria e tratá-las de maneira mais organizada.
+
+### Exemplo
+
+```cpp
+try
+{
+    interface.cadastrarUsuario();
+}
+catch (const BibliotecaInvalidaException& e)
+{
+    std::cerr << "Erro: " << e.what() << "\n";
+}
+catch (const BibliotecaRangeException& e)
+{
+    std::cerr << "Erro: " << e.what() << "\n";
+}
+catch (const BibliotecaException& e)
+{
+    std::cerr << "Erro: " << e.what() << "\n";
+}
+```
+
+As classes de exceção são implementadas em:
+
+```text
+include/Exception.h
+src/Exception.cpp
+```
+
+A criação dessa hierarquia permite que o sistema utilize exceções semanticamente específicas em vez de lançar diretamente `std::runtime_error`, `std::invalid_argument` ou `std::out_of_range` em todas as situações.
 
 ---
 
@@ -365,6 +481,8 @@ std::all_of(
 );
 ```
 
+As situações de CPF inválido e CPF já cadastrado são tratadas por exceções específicas.
+
 ---
 
 # 📕 Validação de livros
@@ -379,6 +497,8 @@ O sistema:
 * Utiliza o ISBN para realizar devoluções.
 * Utiliza o ISBN para localizar empréstimos.
 * Utiliza o ISBN para remover livros.
+
+Além disso, título, autor e ISBN possuem validações próprias.
 
 ---
 
@@ -401,20 +521,28 @@ O sistema possui uma interface de console com as seguintes operações:
 0. Sair.
 ```
 
-As operações são protegidas por tratamento de exceções:
+As operações são protegidas por tratamento de exceções através da hierarquia criada pelo projeto:
 
 ```cpp
 try
 {
     // operação
 }
-catch (const std::invalid_argument& e)
+catch (const BibliotecaInvalidaException& e)
+{
+    std::cerr << "Erro: " << e.what() << "\n";
+}
+catch (const BibliotecaRangeException& e)
+{
+    std::cerr << "Erro: " << e.what() << "\n";
+}
+catch (const BibliotecaException& e)
 {
     std::cerr << "Erro: " << e.what() << "\n";
 }
 ```
 
-Dessa forma, erros de validação e regras de negócio podem ser tratados sem encerrar o programa imediatamente.
+Dessa forma, diferentes categorias de erros podem ser tratadas de maneira organizada sem encerrar o programa imediatamente.
 
 ---
 
@@ -458,16 +586,22 @@ Durante o desenvolvimento foram utilizados os seguintes conceitos:
 * Referências
 * Smart pointers
 * `override`
+* `std::chrono`
 
 ## Tratamento e validação
 
 * Exceções
 * `try`
 * `catch`
+* Hierarquia de exceções customizadas
+* `std::runtime_error`
 * `std::invalid_argument`
+* `std::out_of_range`
 * Validação de CPF
 * Validação de ISBN
+* Validação de entradas
 * Regras de negócio
+* Registro automático de datas
 
 ## Organização
 
@@ -476,6 +610,7 @@ Durante o desenvolvimento foram utilizados os seguintes conceitos:
 * Modelagem de classes
 * Controle de estado
 * Histórico de operações
+* Organização por Issues e Pull Requests
 
 ---
 
@@ -509,27 +644,12 @@ Esse processo permite acompanhar a evolução do projeto e manter um histórico 
 
 # 🚀 Próximos passos
 
-O próximo objetivo do desenvolvimento é melhorar o gerenciamento das datas dos empréstimos.
+O próximo objetivo do desenvolvimento é continuar aprimorando a arquitetura e a qualidade do sistema.
 
-## 📅 Data atual automática
-
-Atualmente, as datas utilizadas pelo sistema são definidas manualmente.
-
-A próxima implementação será responsável por obter automaticamente a data atual do sistema.
-
-A funcionalidade deverá:
-
-* Registrar automaticamente a data do empréstimo.
-* Registrar automaticamente a data da devolução.
-* Eliminar a necessidade de informar manualmente essas datas.
-* Manter o formato utilizado atualmente pelo histórico.
-
----
-
-## 🔮 Outras melhorias planejadas
+Algumas melhorias planejadas:
 
 * Melhorar a interface do console.
-* Melhorar a validação de entradas.
+* Melhorar a centralização e organização das validações.
 * Permitir seleção dinâmica de usuários.
 * Adicionar confirmações para operações destrutivas.
 * Implementar persistência dos dados.
@@ -561,19 +681,22 @@ A funcionalidade deverá:
 * [x] Limite de 3 empréstimos por usuário
 * [x] Verificação da existência do usuário
 * [x] Histórico de empréstimos
-* [x] Registro da data de empréstimo
-* [x] Registro da data de devolução
+* [x] Registro automático da data de empréstimo
+* [x] Registro automático da data de devolução
 * [x] Busca de empréstimo ativo
 * [x] Validação de CPF
 * [x] Validação de ISBN
+* [x] Validação de entradas
 * [x] Regras para remoção de usuários
 * [x] Regras para remoção de livros
+* [x] Hierarquia de exceções customizadas
 * [x] Tratamento de exceções
 * [x] Gerenciamento de memória com `std::unique_ptr`
 
 ## Próxima implementação
 
-* [ ] Data atual automática
+* [ ] Centralização e padronização das validações
+* [ ] Melhorias na arquitetura do sistema
 
 ## Futuras melhorias
 
@@ -581,7 +704,6 @@ A funcionalidade deverá:
 * [ ] Testes automatizados
 * [ ] Banco de dados
 * [ ] Melhorias na interface
-* [ ] Melhorias na validação
 
 ---
 
@@ -654,6 +776,7 @@ SistemaDeBiblioteca/
 │   ├── Biblioteca.h
 │   ├── Ebook.h
 │   ├── Emprestimo.h
+│   ├── Exception.h
 │   ├── Livro.h
 │   ├── LivroFisico.h
 │   └── Usuario.h
@@ -662,6 +785,8 @@ SistemaDeBiblioteca/
 │   ├── Biblioteca.cpp
 │   ├── Ebook.cpp
 │   ├── Emprestimo.cpp
+│   ├── Exception.cpp
+│   ├── Interface.cpp
 │   ├── Livro.cpp
 │   ├── LivroFisico.cpp
 │   ├── Usuario.cpp
@@ -679,6 +804,6 @@ Este projeto está em desenvolvimento contínuo.
 
 As funcionalidades são implementadas gradualmente, testadas e integradas ao projeto através do Git e GitHub.
 
-O objetivo é utilizar o projeto como prática contínua de **C++, Programação Orientada a Objetos, STL, gerenciamento de memória, validação de dados, regras de negócio e desenvolvimento de software**.
+O objetivo é utilizar o projeto como prática contínua de **C++, Programação Orientada a Objetos, STL, gerenciamento de memória, validação de dados, regras de negócio, tratamento de exceções e desenvolvimento de software**.
 
 Novas funcionalidades serão adicionadas conforme a evolução do projeto.
