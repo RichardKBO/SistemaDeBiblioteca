@@ -145,8 +145,3 @@ void Usuario::listarLivros() const
         std::cout << "ISBN: " << livro->getISBN() << "\n";
     }
 }
-
-void Interface::cadastrarUsuario()
-{
-    
-}
