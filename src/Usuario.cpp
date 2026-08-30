@@ -15,15 +15,17 @@ bool cpfValido(const std::string &cpf)
         return false;
     }
 
-    return std::all_of(cpf.begin(), cpf.end(), [](char caractere)
+    if (!std::all_of(cpf.begin(), cpf.end(), [](char caractere)
     {
         return std::isdigit(static_cast<unsigned char>(caractere));
-    });
+    }))
     {
         return false;
     }
+
     int soma = 0;
 
+    //Primeiro digito verificador
     for (int i = 0; i < 9; ++i)
     {
         soma += (cpf[i] - '0') * (10 - i);
@@ -40,6 +42,8 @@ bool cpfValido(const std::string &cpf)
         return false;
     }
 
+    //Segundo digito verificador
+
     soma = 0;
 
     for (int i = 0; i < 10; ++i)
@@ -47,7 +51,7 @@ bool cpfValido(const std::string &cpf)
         soma += (cpf[i] - '0') * (11 - i);
     }
 
-    int segundoDigito = 0;
+    int segundoDigito = (soma * 10) % 11;
 
     if (segundoDigito == 10)
     {
