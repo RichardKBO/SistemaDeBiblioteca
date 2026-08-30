@@ -1,7 +1,7 @@
 ﻿#include "LivroFisico.h"
 #include <iostream>
 
-#include <stdexcept>
+#include "Exception.h"
 
 LivroFisico::LivroFisico(const std::string &titulo, const std::string &autor, const std::string &isbn, bool disponibilidade, int quantidadeDePaginas)
     :Livro(titulo, autor, isbn, disponibilidade),
@@ -9,7 +9,7 @@ LivroFisico::LivroFisico(const std::string &titulo, const std::string &autor, co
 {
     if (quantidadeDePaginas <= 0)
     {
-        throw std::invalid_argument("A quantidade de páginas deve ser maior que zero.");
+        throw QuantidadeDePaginasInvalidaException("A quantidade de páginas deve ser maior que zero.");
     }
 }
 
@@ -23,7 +23,7 @@ void LivroFisico::emprestar()
     }
     else
     {
-        throw std::invalid_argument("Livro indisponível para empréstimo.");
+        throw LivroIndisponivelException("Livro indisponível para empréstimo.");
     }
 }
 
@@ -48,6 +48,6 @@ void LivroFisico::mostrarDetalhes() const
     }
     else
     {
-        std::cerr <<"Indisponível." <<"\n";
+        throw LivroIndisponivelException("Indisponível.");
     }
 }

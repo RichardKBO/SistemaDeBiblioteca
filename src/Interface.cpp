@@ -3,8 +3,8 @@
 #include "LivroFisico.h"
 #include "Ebook.h"
 #include "Usuario.h"
+#include "Exception.h"
 
-#include <stdexcept>
 #include <iostream>
 #include <memory>
 #include <limits>
@@ -25,7 +25,7 @@ int Interface::lerNumeroInteiro(const std::string &mensagem)
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        throw std::invalid_argument("Valor inválido.");
+        throw EntradaInvalidaException("Valor inválido.");
     }
     return valor;
 }
@@ -40,7 +40,7 @@ double Interface::lerNumeroDouble(const std::string &mensagem)
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        throw std::invalid_argument("Valor inválido.");
+        throw EntradaInvalidaException("Valor inválido.");
     }
     return valor;
 }
@@ -80,7 +80,7 @@ void Interface::cadastrarLivro()
 
             if (paginas <= 0)
             {
-                throw std::out_of_range("O número de páginas deve ser maior que zero.");
+                throw QuantidadeDePaginasInvalidaException("O número de páginas deve ser maior que zero.");
             }
 
             biblioteca.adicionarLivro(std::make_unique<LivroFisico>(titulo, autor, isbn, true, paginas));
@@ -112,7 +112,7 @@ void Interface::cadastrarLivro()
 
             if (tamanhoDoArquivo <= 0)
             {
-                throw std::out_of_range("O tamanho do arquivo precisa ser maior que zero.");
+                throw TamanhoArquivoInvalidoException("O tamanho do arquivo precisa ser maior que zero.");
             }
 
             biblioteca.adicionarLivro(std::make_unique<Ebook>(titulo, autor, isbn, true, tamanhoDoArquivo));
@@ -122,7 +122,7 @@ void Interface::cadastrarLivro()
         }
 
         default:
-            throw std::invalid_argument("Tipo de livro inválido.");
+            throw TipoInvalidoException("Tipo de livro inválido.");
     }
 }
 
@@ -211,7 +211,7 @@ void Interface::cadastrarUsuario()
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        throw std::invalid_argument("Digite apenas números.");
+        throw OpcaoInvalidaException("Digite apenas números.");
     }
 
     switch (opcao)
@@ -239,7 +239,7 @@ void Interface::cadastrarUsuario()
             break;
         }
         default:
-            throw std::invalid_argument("Dado inválido.");
+            throw DadoInvalidoException("Dado inválido.");
     }
 }
 

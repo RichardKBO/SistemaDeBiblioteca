@@ -1,11 +1,11 @@
 ﻿#include "Biblioteca.h"
 #include "Usuario.h"
 #include "Emprestimo.h"
+#include "Exception.h"
 
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <stdexcept>
 #include <algorithm>
 #include <chrono>
 #include <ctime>
@@ -42,7 +42,7 @@ void Biblioteca::adicionarLivro(std::unique_ptr<Livro> livro)
 
         if (livroExistente->getISBN() == livro->getISBN())
         {
-            throw std::invalid_argument("Já existe um livro com esse ISBN.");
+            throw ISBNDuplicadoException("Já existe um livro com esse ISBN.");
         }
     }
 
@@ -58,7 +58,7 @@ void Biblioteca::cadastrarUsuario(std::unique_ptr<Usuario> usuario)
 
     if (cadastroExistente != usuarios_.end())
     {
-        throw std::invalid_argument("Já existe um usuário com esse número de cadastro.");
+        throw UsuarioDuplicadoException("Já existe um usuário com esse número de cadastro.");
     }
 
     auto cpfExistente = std::find_if(usuarios_.begin(), usuarios_.end(), [&usuario](const auto& usuarioExistente)
@@ -68,7 +68,7 @@ void Biblioteca::cadastrarUsuario(std::unique_ptr<Usuario> usuario)
 
     if (cpfExistente != usuarios_.end())
     {
-        throw std::invalid_argument("Já existe um usuário com esse número de cadastro.");
+        throw CPFJaCadastradoException("Já existe um usuário com esse CPF.");
     }
 
     usuarios_.push_back(std::move(usuario));
@@ -83,7 +83,7 @@ Usuario* Biblioteca::buscarUsuario(int numeroDeCadastro) const // Função pra b
             return usuario.get();
         }
     }
-    throw std::invalid_argument("Usuário não encontrado.");
+    throw UsuarioNaoEncontradoException("Usuário não encontrado.");
 }
 
 bool Biblioteca::removerUsuario(int numeroDeCadastro) // Função para remover usuários por número de cadastro.
@@ -104,7 +104,7 @@ bool Biblioteca::removerUsuario(int numeroDeCadastro) // Função para remover u
 
     if ((*it)->possuiLivrosEmprestados()) //Se o usuário tem livros, não remove até que o devolva.
     {
-        throw std::invalid_argument("O usuário possui livros emprestados e não pode ser removido.");
+        throw UsuarioComEmprestimosException("O usuário possui livros emprestados e não pode ser removido.");
     }
 
     usuarios_.erase(it);
@@ -161,7 +161,7 @@ void Biblioteca::buscarLivro(const std::string &isbn) const
             return;
         }
     }
-    throw std::invalid_argument("O livro não foi encontrado.");
+    throw LivroNaoEncontradoException("O livro não foi encontrado.");
 }
 
 void Biblioteca::listarHistorico() const
@@ -194,17 +194,17 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
 
             if (usuario.possuiLivro(livro.get()))
             {
-                throw std::invalid_argument("O usuário já possui esse livro.");
+                throw LivroJaPossuiException("O usuário já possui esse livro.");
             }
 
             if (!usuario.podeEmprestarLivro())
             {
-                throw std::invalid_argument("O usuário atingiu o limite de 3 livros emprestados.");
+                throw LimiteEmprestimosException("O usuário atingiu o limite de 3 livros emprestados.");
             }
 
             if (!livro->getDisponibilidade())
             {
-                throw std::invalid_argument("O livro não está disponível.");
+                throw LivroIndisponivelException("O livro não está disponível.");
             }
 
             livro->emprestar();
@@ -222,7 +222,7 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
             return;
         }
     }
-    throw std::invalid_argument("Livro não encontrado.");
+    throw LivroNaoEncontradoException("Livro não encontrado.");
 }
 
 bool Biblioteca::removerLivro(const std::string &isbn)
@@ -239,7 +239,7 @@ bool Biblioteca::removerLivro(const std::string &isbn)
 
     if (!(*it)->getDisponibilidade())
     {
-        throw std::invalid_argument("O livro está emprestado e não pode ser removido.");
+        throw LivroEmprestadoException("O livro está emprestado e não pode ser removido.");
     }
 
     livros_.erase(it);
@@ -259,7 +259,7 @@ Emprestimo *Biblioteca::buscarEmprestimo(int numeroDeCadastroUsuario, const std:
             return &emprestimo;
         }
     }
-    throw std::invalid_argument("Empréstimo não encontrado.");
+    throw EmprestimoNaoEncontradoException("Empréstimo não encontrado.");
 }
 
 void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
@@ -275,7 +275,7 @@ void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
 
             if (!usuario.possuiLivro(livro.get()))
             {
-                throw std::invalid_argument("O usuário não possui este livro.");
+                throw UsuarioNaoPossuiEsseLivroException("O usuário não possui este livro.");
             }
 
             Emprestimo* emprestimo = buscarEmprestimo(usuario.getNumeroDeCadastro(), isbn);
@@ -290,7 +290,7 @@ void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
             return;
         }
     }
-    throw std::invalid_argument("Livro não encontrado.");
+    throw LivroNaoEncontradoException("Livro não encontrado.");
 }
 
 

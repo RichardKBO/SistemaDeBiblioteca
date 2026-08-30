@@ -15,6 +15,8 @@ add_executable(SistemaDeBiblioteca
         src/Emprestimo.cpp
         include/Interface.h
         src/Interface.cpp
+        include/Exception.h
+        src/Exception.cpp
 )
 
 target_include_directories(SistemaDeBiblioteca PRIVATE
