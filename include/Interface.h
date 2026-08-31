@@ -11,6 +11,10 @@ private:
     int lerNumeroInteiro(const std::string& mensagem);
     double lerNumeroDouble(const std::string& mensagem);
 
+    void mostrarCabecalho(const std::string& titulo);
+;
+
+
 public:
     explicit Interface(Biblioteca& biblioteca);
 
