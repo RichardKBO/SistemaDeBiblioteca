@@ -1,9 +1,9 @@
 📚 Sistema de Biblioteca
 
-https://img.shields.io/badge/C++-23-blue
-https://img.shields.io/badge/CMake-4.3+-green
-https://img.shields.io/badge/Status-Em%20Desenvolvimento-green
-https://img.shields.io/badge/License-MIT-yellow
+![C++](https ://img.shields.io/badge/C++-23-blue)
+![CMake](https ://img.shields.io/badge/CMake-4.3+-green)
+![Status](https ://img.shields.io/badge/Status-Em%20Desenvolvimento-green)
+![License](https ://img.shields.io/badge/License-MIT-yellow)
 
 O projeto está sendo desenvolvido de forma incremental, utilizando **Issues, Branches, Commits e Pull Requests** para organizar a evolução do sistema.
 
