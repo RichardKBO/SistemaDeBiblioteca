@@ -8,6 +8,7 @@
 #include <iostream>
 #include <limits>
 
+
 /*
  * Criado por: Richard Kawan Barbosa Oliveira
  * Data: 21/08/2026

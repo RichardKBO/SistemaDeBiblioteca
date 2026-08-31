@@ -22,7 +22,9 @@ std::string obterDataAtual()
 
     std::tm data{};
 
-    localtime_r(&tempo, &data);
+    //localtime_r(&tempo, &data); \\Linux / Mac
+
+    localtime_s(&data, &tempo); //Windows
 
     std::ostringstream resultado;
 
@@ -114,9 +116,6 @@ bool Biblioteca::removerUsuario(int numeroDeCadastro) // Função para remover u
 
 void Biblioteca::listarUsuarios() const
 {
-    std::cout <<"===============================================\n";
-    std::cout <<" USUÁRIOS CADASTRADOS." <<"\n";
-    std::cout <<"===============================================\n";
 
     for (const auto& usuario : usuarios_)
     {
@@ -130,8 +129,6 @@ void Biblioteca::listarUsuarios() const
 
 void Biblioteca::listarLivros() const
 {
-    std::cout <<"===============================================\n";
-
     for (const auto& livro : livros_)
     {
         std::cout <<"Título: " << livro->getTitulo() <<"\n";
@@ -139,8 +136,6 @@ void Biblioteca::listarLivros() const
         std::cout <<"ISBN: " << livro->getISBN() <<"\n";
 
         livro->mostrarDetalhes();
-
-        std::cout <<"===============================================\n";
     }
 }
 
@@ -166,10 +161,6 @@ void Biblioteca::buscarLivro(const std::string &isbn) const
 
 void Biblioteca::listarHistorico() const
 {
-    std::cout <<"===============================================\n";
-    std::cout <<"HISTÓRICO DE EMPRÉSTIMOS\n";
-    std::cout <<"===============================================\n";
-
     for (const auto& emprestimo : historico_)
     {
         std::cout <<"Número de cadastro: " << emprestimo.getNumeroDeCadastroUsuario() <<"\n";

@@ -49,8 +49,12 @@ void Interface::cadastrarLivro()
 {
     int tipo;
 
+    std::cout <<"=======================\n";
+    std::cout <<"=== CADASTRAR LIVRO ===\n";
+    std::cout <<"=======================\n";
+
+
     std::cout << "\n";
-    std::cout << "==== CADASTRAR LIVRO ====\n";
     std::cout << "1 - Livro físico." << "\n";
     std::cout << "2 - Ebook." << "\n";
     tipo = lerNumeroInteiro("Escolha um tipo: ");
@@ -130,6 +134,11 @@ void Interface::buscarLivro()
 {
     std::string isbn;
 
+    std::cout <<"========================\n";
+    std::cout <<"===== BUSCAR LIVRO =====\n";
+    std::cout <<"========================\n";
+
+    std::cout <<"\n";
     std::cout << "Digite o ISBN: ";
     std::getline(std::cin >> std::ws, isbn);
 
@@ -138,6 +147,10 @@ void Interface::buscarLivro()
 
 void Interface::listarMeusLivros()
 {
+    std::cout <<"================================\n";
+    std::cout <<"=== LISTAR LIVROS DO USUÁRIO ==\n";
+    std::cout <<"================================\n";
+
     int numeroDeCadastro;
 
     numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
@@ -149,6 +162,10 @@ void Interface::listarMeusLivros()
 
 void Interface::listarLivros()
 {
+    std::cout <<"=======================\n";
+    std::cout <<"=== LISTAR LIVROS =====\n";
+    std::cout <<"=======================\n";
+
     biblioteca.listarLivros();
 }
 
@@ -156,6 +173,11 @@ void Interface::emprestarLivro()
 {
     std::string isbn;
 
+    std::cout <<"===========================\n";
+    std::cout <<"=== EMPRÉSTIMO DE LIVRO ==\n";
+    std::cout <<"===========================\n";
+
+    std::cout <<"\n";
     std::cout << "Digite o ISBN: ";
     std::getline(std::cin >> std::ws, isbn);
 
@@ -170,6 +192,11 @@ void Interface::devolverLivro()
 {
     std::string isbn;
 
+    std::cout <<"=======================\n";
+    std::cout <<"=== DEVOLVER LIVRO ===\n";
+    std::cout <<"=======================\n";
+
+    std::cout <<"\n";
     std::cout << "Digite o ISBN: ";
     std::getline(std::cin >> std::ws, isbn);
 
@@ -184,6 +211,11 @@ void Interface::removerLivro()
 {
     std::string isbn;
 
+    std::cout <<"=======================\n";
+    std::cout <<"=== REMOVER LIVRO =====\n";
+    std::cout <<"=======================\n";
+
+    std::cout <<"\n";
     std::cout << "Digite o ISBN: ";
     std::getline(std::cin >> std::ws, isbn);
 
@@ -201,8 +233,11 @@ void Interface::cadastrarUsuario()
 {
     int opcao;
 
-    std::cout << "=== CADASTRAR USUÁRIO ===\n";
+    std::cout <<"=========================\n";
+    std::cout <<"=== CADASTRAR USUÁRIO ==\n";
+    std::cout <<"=========================\n";
 
+    std::cout <<"\n";
     std::cout << "1. Cadastrar." << "\n";
     std::cout << "0. Sair." << "\n";
     std::cout << "Escolha uma opção: ";
@@ -245,11 +280,22 @@ void Interface::cadastrarUsuario()
 
 void Interface::listarUsuarios()
 {
+    std::cout <<"=======================\n";
+    std::cout <<"=== LISTAR USUÁRIO ===\n";
+    std::cout <<"=======================";
+
+    std::cout <<"\n";
+
     biblioteca.listarUsuarios();
 }
 
 void Interface::removerUsuario()
 {
+    std::cout <<"=======================\n";
+    std::cout <<"=== REMOVER USUÁRIO ==\n";
+    std::cout <<"=======================\n";
+
+    std::cout <<"\n";
     int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
 
     if (biblioteca.removerUsuario(numeroDeCadastro))
@@ -263,5 +309,9 @@ void Interface::removerUsuario()
 
 void Interface::listarHistorico()
 {
+    std::cout <<"========================\n";
+    std::cout <<"=== LISTAR HISTÓRICO ==\n";
+    std::cout <<"========================";
+
     biblioteca.listarHistorico();
 }
