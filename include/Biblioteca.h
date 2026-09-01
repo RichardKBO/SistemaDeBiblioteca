@@ -41,4 +41,6 @@ public:
     void buscarLivro(const std::string &isbn) const;
 
     void listarHistorico() const;
+
+    [[nodiscard]] const std::vector<std::unique_ptr<Usuario>>& getUsuario() const;
 };

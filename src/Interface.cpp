@@ -300,3 +300,30 @@ void Interface::listarHistorico()
 
     biblioteca.listarHistorico();
 }
+
+Usuario *Interface::selecionarUsuario()
+{
+    const auto& usuarios = biblioteca.getUsuario();
+
+    if (usuarios.empty())
+    {
+        throw UsuarioNaoEncontradoException("Não existem usuários cadastrados.");
+    }
+
+    mostrarCabecalho("SELECIONAR USUÁRIO");
+
+    for (std::size_t i = 0; i < usuarios.size(); i++)
+    {
+        std::cout << i + 1 << ". " << usuarios[i]->getNome()
+        << " - Cadastro: " << usuarios[i]->getNumeroDeCadastro() <<
+            "\n";
+    }
+
+    const int opcao = lerNumeroInteiro("Escolha o usuário: ");
+
+    if (opcao < 1 || opcao > static_cast<int>(usuarios.size()))
+    {
+        throw OpcaoInvalidaException("Usuário inválido.");
+    }
+    return usuarios[opcao - 1].get();
+}
