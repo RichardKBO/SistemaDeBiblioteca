@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <vector>
+
 
 class Biblioteca;
 class Usuario;
@@ -39,6 +39,8 @@ public:
     void listarHistorico();
 
     void listarMeusLivros();
+
+    void confirmacaoValida(char confirmacao);
 
     [[nodiscard]] Usuario* selecionarUsuario();
 };

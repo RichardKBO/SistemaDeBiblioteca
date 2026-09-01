@@ -42,5 +42,5 @@ public:
 
     void listarHistorico() const;
 
-    [[nodiscard]] const std::vector<std::unique_ptr<Usuario>>& getUsuario() const;
+    [[nodiscard]] const std::vector<std::unique_ptr<Usuario>>& getUsuarios() const;
 };

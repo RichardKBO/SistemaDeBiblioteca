@@ -9,6 +9,14 @@
 #include <memory>
 #include <limits>
 
+void Interface::confirmacaoValida(char confirmacao)
+{
+    if (confirmacao != 's' && confirmacao != 'S' && confirmacao != 'n' && confirmacao != 'N')
+    {
+        throw OpcaoInvalidaException("Digite uma opção válida.");
+    }
+}
+
 Interface::Interface(Biblioteca &biblioteca)
     :biblioteca(biblioteca)
 {
@@ -152,11 +160,7 @@ void Interface::listarMeusLivros()
 {
    mostrarCabecalho("LISTA DO USUÁRIO");
 
-    int numeroDeCadastro;
-
-    numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
-
-  Usuario* usuario = biblioteca.buscarUsuario(numeroDeCadastro);
+    Usuario* usuario = selecionarUsuario();
 
     usuario->listarLivros();
 }
@@ -178,9 +182,7 @@ void Interface::emprestarLivro()
     std::cout << "Digite o ISBN: ";
     std::getline(std::cin >> std::ws, isbn);
 
-    int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
-
-    Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
+    Usuario *usuario = selecionarUsuario();
 
     biblioteca.emprestarLivro(isbn, *usuario);
 }
@@ -195,9 +197,7 @@ void Interface::devolverLivro()
     std::cout << "Digite o ISBN: ";
     std::getline(std::cin >> std::ws, isbn);
 
-    int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
-
-    Usuario *usuario = biblioteca.buscarUsuario(numeroDeCadastro);
+    Usuario *usuario = selecionarUsuario();
 
     biblioteca.devolverLivro(isbn, *usuario);
 }
@@ -212,12 +212,37 @@ void Interface::removerLivro()
     std::cout << "Digite o ISBN: ";
     std::getline(std::cin >> std::ws, isbn);
 
-    if (biblioteca.removerLivro(isbn))
+    //Verifica se o livro existe
+    biblioteca.buscarLivro(isbn);
+
+    char confirmacao;
+
+
+    std::cout <<"Deseja realmente remover o livro com ISBN " << isbn <<  " ? (s/n): " << "\n";
+    if (!(std::cin >> confirmacao))
     {
-        std::cout << "Livro removido com sucesso." << "\n";
-    } else
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        throw OpcaoInvalidaException("Selecione uma opção válida.");
+    }
+
+    confirmacaoValida(confirmacao);
+
+    if (confirmacao == 's' || confirmacao == 'S')
     {
-        std::cout << "Livro não encontrado." << "\n";
+        if (biblioteca.removerLivro(isbn))
+        {
+            std::cout <<"Livro removido com sucesso." <<"\n";
+        }
+        else
+        {
+            throw LivroNaoEncontradoException("Livro não encontrado.");
+        }
+    }
+    else if (confirmacao == 'n' || confirmacao == 'N')
+    {
+        std::cout <<"Operação cancelada." <<"\n";
     }
 }
 
@@ -283,15 +308,41 @@ void Interface::removerUsuario()
     mostrarCabecalho("REMOVER USUÁRIO");
 
     std::cout <<"\n";
-    int numeroDeCadastro = lerNumeroInteiro("Digite o número de cadastro: ");
 
-    if (biblioteca.removerUsuario(numeroDeCadastro))
+    Usuario* usuario = selecionarUsuario();
+
+    std::cout <<"Usuário selecionado: " << usuario->getNome() <<"\n";
+    std::cout <<"Número de cadastro: " << usuario->getNumeroDeCadastro() <<"\n";
+
+    char confirmacao;
+
+    std::cout <<"Deseja realmente remover esse usuário? (s/n): " <<"\n";
+    if (!(std::cin >> confirmacao))
     {
-        std::cout << "Usuário removido com sucesso." << "\n";
-    } else
-    {
-        std::cout << "Usuário não encontrado." << "\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        throw OpcaoInvalidaException("Selecione uma opção válida.");
     }
+
+    confirmacaoValida(confirmacao);
+
+    if (confirmacao == 's' || confirmacao == 'S')
+    {
+        if (biblioteca.removerUsuario(usuario->getNumeroDeCadastro()))
+        {
+            std::cout <<"Usuário removido com sucesso" <<"\n";
+        }
+        else
+        {
+            throw UsuarioNaoEncontradoException("Usuário não encontrado");
+        }
+    }
+    else if (confirmacao == 'n' || confirmacao == 'N')
+    {
+        std::cout <<"Operação cancelada." <<"\n";
+    }
+
 }
 
 void Interface::listarHistorico()
@@ -303,7 +354,7 @@ void Interface::listarHistorico()
 
 Usuario *Interface::selecionarUsuario()
 {
-    const auto& usuarios = biblioteca.getUsuario();
+    const auto& usuarios = biblioteca.getUsuarios();
 
     if (usuarios.empty())
     {
