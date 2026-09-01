@@ -88,7 +88,7 @@ Usuario* Biblioteca::buscarUsuario(int numeroDeCadastro) const // Função pra b
     throw UsuarioNaoEncontradoException("Usuário não encontrado.");
 }
 
-const std::vector<std::unique_ptr<Usuario> > &Biblioteca::getUsuario() const
+const std::vector<std::unique_ptr<Usuario> > &Biblioteca::getUsuarios() const
 {
     return usuarios_;
 }
