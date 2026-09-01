@@ -22,9 +22,9 @@ std::string obterDataAtual()
 
     std::tm data{};
 
-    //localtime_r(&tempo, &data); \\Linux / Mac
+    localtime_r(&tempo, &data); //Linux / Mac
 
-    localtime_s(&data, &tempo); //Windows
+    //localtime_s(&data, &tempo); //Windows
 
     std::ostringstream resultado;
 
@@ -86,6 +86,11 @@ Usuario* Biblioteca::buscarUsuario(int numeroDeCadastro) const // Função pra b
         }
     }
     throw UsuarioNaoEncontradoException("Usuário não encontrado.");
+}
+
+const std::vector<std::unique_ptr<Usuario> > &Biblioteca::getUsuario() const
+{
+    return usuarios_;
 }
 
 bool Biblioteca::removerUsuario(int numeroDeCadastro) // Função para remover usuários por número de cadastro.

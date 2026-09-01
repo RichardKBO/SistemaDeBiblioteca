@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class Biblioteca;
+class Usuario;
 
 class Interface
 {
@@ -12,8 +14,6 @@ private:
     double lerNumeroDouble(const std::string& mensagem);
 
     void mostrarCabecalho(const std::string& titulo);
-;
-
 
 public:
     explicit Interface(Biblioteca& biblioteca);
@@ -40,4 +40,5 @@ public:
 
     void listarMeusLivros();
 
+    [[nodiscard]] Usuario* selecionarUsuario();
 };
