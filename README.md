@@ -1,4 +1,4 @@
-📚 Sistema de Biblioteca
+# 📚 Sistema de Biblioteca
 
 ![C++](https://img.shields.io/badge/C++-23-blue)
 ![CMake](https://img.shields.io/badge/CMake-4.3+-green)
@@ -29,8 +29,11 @@ O sistema permite realizar operações de gerenciamento de livros, usuários e e
 * Histórico de empréstimos
 * Registro automático de datas de empréstimo e devolução
 * Validação de dados
+* Validação de confirmações para operações destrutivas
 * Hierarquia de exceções customizadas
 * Tratamento de exceções
+
+---
 
 # 🏗️ Estrutura do sistema
 
@@ -358,9 +361,65 @@ A criação dessa hierarquia permite que o sistema utilize exceções semanticam
 
 ---
 
-# 🗑️ Regras de remoção
+# 🗑️ Operações destrutivas
 
-O sistema possui regras para impedir a remoção de objetos que ainda estejam envolvidos em empréstimos.
+O sistema possui proteções adicionais para operações que podem remover dados permanentemente.
+
+Antes da remoção de um livro ou usuário, o sistema solicita uma confirmação explícita:
+
+```text
+Deseja realmente remover esse usuário? (s/n):
+```
+
+ou:
+
+```text
+Deseja realmente remover o livro com ISBN ... ? (s/n):
+```
+
+A confirmação aceita somente:
+
+```text
+s
+S
+n
+N
+```
+
+Qualquer outro caractere gera uma `OpcaoInvalidaException`.
+
+A validação é centralizada através da função:
+
+```cpp
+void Interface::confirmacaoValida(char confirmacao)
+```
+
+Isso evita duplicação da mesma regra em diferentes operações da interface.
+
+### Fluxo de confirmação
+
+```text
+Operação de remoção
+        |
+        v
+Solicita confirmação
+        |
+        v
+Valida entrada
+    /       \
+   /         \
+s/S           n/N
+ |             |
+ v             v
+Executa       Cancela
+remoção       operação
+```
+
+---
+
+# 🚫 Regras de remoção
+
+Além da confirmação, o sistema possui regras para impedir a remoção de objetos que ainda estejam envolvidos em empréstimos.
 
 ## Remoção de usuário
 
@@ -588,6 +647,7 @@ Durante o desenvolvimento foram utilizados os seguintes conceitos:
 * Validação de CPF
 * Validação de ISBN
 * Validação de entradas
+* Validação de confirmações
 * Regras de negócio
 * Registro automático de datas
 
@@ -638,8 +698,6 @@ Algumas melhorias planejadas:
 
 * Melhorar a interface do console.
 * Melhorar a centralização e organização das validações.
-* Permitir seleção dinâmica de usuários.
-* Adicionar confirmações para operações destrutivas.
 * Implementar persistência dos dados.
 * Melhorar a separação entre interface e lógica de negócio.
 * Adicionar testes automatizados.
@@ -675,6 +733,8 @@ Algumas melhorias planejadas:
 * [x] Validação de CPF
 * [x] Validação de ISBN
 * [x] Validação de entradas
+* [x] Validação de confirmações
+* [x] Confirmação para operações destrutivas
 * [x] Regras para remoção de usuários
 * [x] Regras para remoção de livros
 * [x] Hierarquia de exceções customizadas
@@ -683,8 +743,8 @@ Algumas melhorias planejadas:
 
 ## Próxima implementação
 
-* [ ] Centralização e padronização das validações
 * [ ] Melhorias na arquitetura do sistema
+* [ ] Melhorias na interface do console
 
 ## Futuras melhorias
 
@@ -765,6 +825,7 @@ SistemaDeBiblioteca/
 │   ├── Ebook.h
 │   ├── Emprestimo.h
 │   ├── Exception.h
+│   ├── Interface.h
 │   ├── Livro.h
 │   ├── LivroFisico.h
 │   └── Usuario.h
