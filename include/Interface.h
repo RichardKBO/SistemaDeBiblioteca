@@ -13,6 +13,9 @@ private:
     int lerNumeroInteiro(const std::string& mensagem);
     double lerNumeroDouble(const std::string& mensagem);
 
+    char lerConfirmacao();
+
+
     void mostrarCabecalho(const std::string& titulo);
 
 public:

@@ -9,6 +9,22 @@
 #include <memory>
 #include <limits>
 
+char Interface::lerConfirmacao()
+{
+    char confirmacao;
+
+    if (!(std::cin >> confirmacao))
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        throw OpcaoInvalidaException("Selecione uma opção válida.");
+    }
+    confirmacaoValida(confirmacao);
+
+    return confirmacao;
+}
+
 void Interface::confirmacaoValida(char confirmacao)
 {
     if (confirmacao != 's' && confirmacao != 'S' && confirmacao != 'n' && confirmacao != 'N')
@@ -95,11 +111,6 @@ void Interface::cadastrarLivro()
 
             paginas = lerNumeroInteiro("Digite o número de páginas: ");
 
-            if (paginas <= 0)
-            {
-                throw QuantidadeDePaginasInvalidaException("O número de páginas deve ser maior que zero.");
-            }
-
             biblioteca.adicionarLivro(std::make_unique<LivroFisico>(titulo, autor, isbn, true, paginas));
 
             std::cout << "Livro cadastrado com sucesso." << "\n";
@@ -126,11 +137,6 @@ void Interface::cadastrarLivro()
             std::getline(std::cin >> std::ws, isbn);
 
             tamanhoDoArquivo = lerNumeroDouble("Digite o tamanho do arquivo: ");
-
-            if (tamanhoDoArquivo <= 0)
-            {
-                throw TamanhoArquivoInvalidoException("O tamanho do arquivo precisa ser maior que zero.");
-            }
 
             biblioteca.adicionarLivro(std::make_unique<Ebook>(titulo, autor, isbn, true, tamanhoDoArquivo));
 
@@ -215,19 +221,7 @@ void Interface::removerLivro()
     //Verifica se o livro existe
     biblioteca.buscarLivro(isbn);
 
-    char confirmacao;
-
-
-    std::cout <<"Deseja realmente remover o livro com ISBN " << isbn <<  " ? (s/n): " << "\n";
-    if (!(std::cin >> confirmacao))
-    {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-        throw OpcaoInvalidaException("Selecione uma opção válida.");
-    }
-
-    confirmacaoValida(confirmacao);
+    char confirmacao = lerConfirmacao();
 
     if (confirmacao == 's' || confirmacao == 'S')
     {
@@ -314,18 +308,7 @@ void Interface::removerUsuario()
     std::cout <<"Usuário selecionado: " << usuario->getNome() <<"\n";
     std::cout <<"Número de cadastro: " << usuario->getNumeroDeCadastro() <<"\n";
 
-    char confirmacao;
-
-    std::cout <<"Deseja realmente remover esse usuário? (s/n): " <<"\n";
-    if (!(std::cin >> confirmacao))
-    {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-        throw OpcaoInvalidaException("Selecione uma opção válida.");
-    }
-
-    confirmacaoValida(confirmacao);
+    char confirmacao = lerConfirmacao();
 
     if (confirmacao == 's' || confirmacao == 'S')
     {
