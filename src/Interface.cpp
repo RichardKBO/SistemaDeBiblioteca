@@ -243,21 +243,12 @@ void Interface::removerLivro()
 //Usuários
 void Interface::cadastrarUsuario()
 {
-    int opcao;
-
-        mostrarCabecalho("CADASTRAR USUÁRIO");
+    mostrarCabecalho("CADASTRAR USUÁRIO");
 
     std::cout <<"\n";
     std::cout << "1. Cadastrar." << "\n";
     std::cout << "0. Sair." << "\n";
-    std::cout << "Escolha uma opção: ";
-    if (!(std::cin >> opcao))
-    {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-        throw OpcaoInvalidaException("Digite apenas números.");
-    }
+    int opcao = lerNumeroInteiro("Selecione uma opção: ");
 
     switch (opcao)
     {
