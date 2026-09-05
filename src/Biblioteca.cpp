@@ -128,7 +128,7 @@ void Biblioteca::listarUsuarios() const
         std::cout <<"CPF: " << usuario->getCpf() <<"\n";
         std::cout <<"Número de cadastro: " << usuario->getNumeroDeCadastro() <<"\n";
 
-        std::cout <<"===============================================\n";
+        std::cout <<"=======================\n";
     }
 }
 
@@ -156,7 +156,7 @@ void Biblioteca::buscarLivro(const std::string &isbn) const
 
             livro->mostrarDetalhes();
 
-            std::cout <<"===============================================\n";
+            std::cout <<"=======================\n";
 
             return;
         }
@@ -173,7 +173,7 @@ void Biblioteca::listarHistorico() const
         std::cout <<"Data de empréstimo: " << emprestimo.getDataEmprestimo() <<"\n";
         std::cout <<"Data de devolução: " << emprestimo.getDataDevolucao() <<"\n";
 
-        std::cout <<"===============================================\n";
+        std::cout <<"=======================\n";
     }
 }
 
@@ -213,7 +213,7 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
                 obterDataAtual()
                 );
 
-            std::cout <<"===============================================\n";
+            std::cout <<"=======================\n";
 
             return;
         }
@@ -281,7 +281,7 @@ void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
 
             usuario.devolverLivro(livro.get());
 
-            std::cout <<"===============================================\n";
+            std::cout <<"=======================\n";
 
             return;
         }

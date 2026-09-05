@@ -75,6 +75,17 @@ double Interface::lerNumeroDouble(const std::string &mensagem)
     }
     return valor;
 }
+
+std::string Interface::lerISBN()
+{
+    std::string isbn;
+
+    std::cout <<"Digite o ISBN: ";
+    std::getline(std::cin >> std::ws, isbn);
+
+    return isbn;
+}
+
 //Livros
 void Interface::cadastrarLivro()
 {
@@ -151,13 +162,9 @@ void Interface::cadastrarLivro()
 
 void Interface::buscarLivro()
 {
-    std::string isbn;
-
     mostrarCabecalho("BUSCAR LIVRO");
 
-    std::cout <<"\n";
-    std::cout << "Digite o ISBN: ";
-    std::getline(std::cin >> std::ws, isbn);
+    std::string isbn = lerISBN();
 
     biblioteca.buscarLivro(isbn);
 }
@@ -180,13 +187,9 @@ void Interface::listarLivros()
 
 void Interface::emprestarLivro()
 {
-    std::string isbn;
-
     mostrarCabecalho("EMPRÉSTIMO");
 
-    std::cout <<"\n";
-    std::cout << "Digite o ISBN: ";
-    std::getline(std::cin >> std::ws, isbn);
+    std::string isbn = lerISBN();
 
     Usuario *usuario = selecionarUsuario();
 
@@ -195,13 +198,9 @@ void Interface::emprestarLivro()
 
 void Interface::devolverLivro()
 {
-    std::string isbn;
-
     mostrarCabecalho("DEVOLVER LIVRO");
 
-    std::cout <<"\n";
-    std::cout << "Digite o ISBN: ";
-    std::getline(std::cin >> std::ws, isbn);
+    std::string isbn = lerISBN();
 
     Usuario *usuario = selecionarUsuario();
 
@@ -210,16 +209,14 @@ void Interface::devolverLivro()
 
 void Interface::removerLivro()
 {
-    std::string isbn;
-
     mostrarCabecalho("REMOVER LIVRO");
 
-    std::cout <<"\n";
-    std::cout << "Digite o ISBN: ";
-    std::getline(std::cin >> std::ws, isbn);
+    std::string isbn = lerISBN();
 
     //Verifica se o livro existe
     biblioteca.buscarLivro(isbn);
+
+    std::cout << "Deseja realmente remover o livro com ISBN " << isbn << " ? (s/n): " << "\n";
 
     char confirmacao = lerConfirmacao();
 
@@ -298,6 +295,8 @@ void Interface::removerUsuario()
 
     std::cout <<"Usuário selecionado: " << usuario->getNome() <<"\n";
     std::cout <<"Número de cadastro: " << usuario->getNumeroDeCadastro() <<"\n";
+
+    std::cout <<"Deseja realmente remover esse usuário? (s/n): ";
 
     char confirmacao = lerConfirmacao();
 
