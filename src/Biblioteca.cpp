@@ -144,7 +144,7 @@ void Biblioteca::listarLivros() const
     }
 }
 
-void Biblioteca::buscarLivro(const std::string &isbn) const
+Livro* Biblioteca::buscarLivro(const std::string &isbn) const
 {
     for (const auto& livro : livros_)
     {
@@ -158,7 +158,7 @@ void Biblioteca::buscarLivro(const std::string &isbn) const
 
             std::cout <<"=======================\n";
 
-            return;
+            return livro.get();
         }
     }
     throw LivroNaoEncontradoException("O livro não foi encontrado.");

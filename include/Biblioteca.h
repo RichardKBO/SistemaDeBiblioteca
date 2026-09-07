@@ -38,7 +38,7 @@ public:
 
     void devolverLivro(const std::string &isbn, Usuario &usuario);
 
-    void buscarLivro(const std::string &isbn) const;
+    Livro* buscarLivro(const std::string &isbn) const;
 
     void listarHistorico() const;
 

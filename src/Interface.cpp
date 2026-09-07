@@ -166,7 +166,13 @@ void Interface::buscarLivro()
 
     std::string isbn = lerISBN();
 
-    biblioteca.buscarLivro(isbn);
+    Livro* livro = biblioteca.buscarLivro(isbn);
+
+    std::cout << "Título: " << livro->getTitulo() << "\n";
+    std::cout << "Autor: " << livro->getAutor() << "\n";
+    std::cout << "ISBN: " << livro->getISBN() << "\n";
+
+    livro->mostrarDetalhes();
 }
 
 void Interface::listarMeusLivros()
