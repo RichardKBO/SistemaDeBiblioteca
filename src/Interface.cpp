@@ -9,6 +9,20 @@
 #include <memory>
 #include <limits>
 
+void Interface::mostrarSeparador()
+{
+    std::cout <<"=======================\n";
+}
+
+void Interface::mostrarLivro(const Livro &livro)
+{
+    std::cout <<"Título: " << livro.getTitulo() <<"\n";
+    std::cout <<"Autor: " << livro.getAutor() <<"\n";
+    std::cout <<"ISBN: " << livro.getISBN() <<"\n";
+
+    livro.mostrarDetalhes();
+}
+
 char Interface::lerConfirmacao()
 {
     char confirmacao;
@@ -168,11 +182,9 @@ void Interface::buscarLivro()
 
     Livro* livro = biblioteca.buscarLivro(isbn);
 
-    std::cout << "Título: " << livro->getTitulo() << "\n";
-    std::cout << "Autor: " << livro->getAutor() << "\n";
-    std::cout << "ISBN: " << livro->getISBN() << "\n";
+    mostrarLivro(*livro);
+    mostrarSeparador();
 
-    livro->mostrarDetalhes();
 }
 
 void Interface::listarMeusLivros()
@@ -181,14 +193,25 @@ void Interface::listarMeusLivros()
 
     Usuario* usuario = selecionarUsuario();
 
-    usuario->listarLivros();
+    const auto& livros = usuario->getLivrosEmprestados();
+
+    for (const auto& livro : livros)
+    {
+        mostrarLivro(*livro);
+    }
 }
 
 void Interface::listarLivros()
 {
     mostrarCabecalho("LISTAR LIVROS");
 
-    biblioteca.listarLivros();
+    const auto& livros = biblioteca.getLivros();
+
+    for (const auto& livro : livros)
+    {
+        mostrarLivro(*livro);
+        mostrarSeparador();
+    }
 }
 
 void Interface::emprestarLivro()
@@ -199,7 +222,9 @@ void Interface::emprestarLivro()
 
     Usuario *usuario = selecionarUsuario();
 
-    biblioteca.emprestarLivro(isbn, *usuario);
+    Livro* livro = biblioteca.emprestarLivro(isbn, *usuario);
+    mostrarLivro(*livro);
+    mostrarSeparador();
 }
 
 void Interface::devolverLivro()
@@ -210,7 +235,10 @@ void Interface::devolverLivro()
 
     Usuario *usuario = selecionarUsuario();
 
-    biblioteca.devolverLivro(isbn, *usuario);
+    Livro* livro = biblioteca.devolverLivro(isbn, *usuario);
+
+    mostrarLivro(*livro);
+    mostrarSeparador();
 }
 
 void Interface::removerLivro()
@@ -218,9 +246,6 @@ void Interface::removerLivro()
     mostrarCabecalho("REMOVER LIVRO");
 
     std::string isbn = lerISBN();
-
-    //Verifica se o livro existe
-    biblioteca.buscarLivro(isbn);
 
     std::cout << "Deseja realmente remover o livro com ISBN " << isbn << " ? (s/n): " << "\n";
 

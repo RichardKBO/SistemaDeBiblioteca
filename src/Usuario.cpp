@@ -1,12 +1,8 @@
 ﻿#include "Usuario.h"
 #include "Exception.h"
-
-#include <stdexcept>
-#include <iostream>
 #include <algorithm>
 #include <cctype>
 
-#include "Interface.h"
 #include "Livro.h"
 
 bool cpfValido(const std::string &cpf)
@@ -137,12 +133,7 @@ bool Usuario::podeEmprestarLivro() const
     return livrosEmprestados_.size() < 3;
 }
 
-void Usuario::listarLivros() const
+const std::vector<Livro *> &Usuario::getLivrosEmprestados() const
 {
-    for (const auto &livro: livrosEmprestados_)
-    {
-        std::cout << "Título: " << livro->getTitulo() << "\n";
-        std::cout << "Autor: " << livro->getAutor() << "\n";
-        std::cout << "ISBN: " << livro->getISBN() << "\n";
-    }
+    return livrosEmprestados_;
 }
