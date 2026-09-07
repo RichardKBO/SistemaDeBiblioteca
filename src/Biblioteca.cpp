@@ -132,33 +132,18 @@ void Biblioteca::listarUsuarios() const
     }
 }
 
-void Biblioteca::listarLivros() const
+const std::vector<std::unique_ptr<Livro> > &Biblioteca::getLivros() const
 {
-    for (const auto& livro : livros_)
-    {
-        std::cout <<"Título: " << livro->getTitulo() <<"\n";
-        std::cout <<"Autor: " << livro->getAutor() <<"\n";
-        std::cout <<"ISBN: " << livro->getISBN() <<"\n";
-
-        livro->mostrarDetalhes();
-    }
+    return livros_;
 }
 
-void Biblioteca::buscarLivro(const std::string &isbn) const
+Livro* Biblioteca::buscarLivro(const std::string &isbn) const
 {
     for (const auto& livro : livros_)
     {
         if (livro->getISBN() == isbn)
         {
-            std::cout <<"Título: " << livro->getTitulo() <<"\n";
-            std::cout <<"Autor: " << livro->getAutor() <<"\n";
-            std::cout <<"ISBN: " << livro->getISBN() <<"\n";
-
-            livro->mostrarDetalhes();
-
-            std::cout <<"=======================\n";
-
-            return;
+            return livro.get();
         }
     }
     throw LivroNaoEncontradoException("O livro não foi encontrado.");
@@ -177,17 +162,12 @@ void Biblioteca::listarHistorico() const
     }
 }
 
-void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
+Livro* Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
 {
     for (const auto& livro : livros_)
     {
         if (livro->getISBN() == isbn)
         {
-            std::cout <<"Livro emprestado: " <<"\n";
-            std::cout <<"\nTítulo: " << livro->getTitulo() <<"\n";
-            std::cout <<"Autor: " << livro->getAutor() <<"\n";
-            std::cout <<"ISBN: " << livro->getISBN() <<"\n";
-
             if (usuario.possuiLivro(livro.get()))
             {
                 throw LivroJaPossuiException("O usuário já possui esse livro.");
@@ -213,9 +193,7 @@ void Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
                 obterDataAtual()
                 );
 
-            std::cout <<"=======================\n";
-
-            return;
+            return livro.get();
         }
     }
     throw LivroNaoEncontradoException("Livro não encontrado.");
@@ -258,17 +236,12 @@ Emprestimo *Biblioteca::buscarEmprestimo(int numeroDeCadastroUsuario, const std:
     throw EmprestimoNaoEncontradoException("Empréstimo não encontrado.");
 }
 
-void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
+Livro* Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
 {
     for (const auto& livro : livros_)
     {
         if (livro->getISBN() == isbn)
         {
-            std::cout <<"Livro devolvido: " <<"\n";
-            std::cout <<"\nTítulo: " << livro->getTitulo() <<"\n";
-            std::cout <<"Autor: " << livro->getAutor() <<"\n";
-            std::cout <<"ISBN: " << livro->getISBN() <<"\n";
-
             if (!usuario.possuiLivro(livro.get()))
             {
                 throw UsuarioNaoPossuiEsseLivroException("O usuário não possui este livro.");
@@ -281,9 +254,7 @@ void Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
 
             usuario.devolverLivro(livro.get());
 
-            std::cout <<"=======================\n";
-
-            return;
+            return livro.get();
         }
     }
     throw LivroNaoEncontradoException("Livro não encontrado.");

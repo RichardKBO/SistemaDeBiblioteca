@@ -30,17 +30,16 @@ public:
 
     void listarUsuarios() const;
 
-    void listarLivros() const;
-
-    void emprestarLivro(const std::string &isbn, Usuario &usuario);
+    [[nodiscard]]Livro* emprestarLivro(const std::string &isbn, Usuario &usuario);
 
     bool removerLivro(const std::string &isbn);
 
-    void devolverLivro(const std::string &isbn, Usuario &usuario);
+    [[nodiscard]]Livro* devolverLivro(const std::string &isbn, Usuario &usuario);
 
-    void buscarLivro(const std::string &isbn) const;
+    Livro* buscarLivro(const std::string &isbn) const;
 
     void listarHistorico() const;
 
     [[nodiscard]] const std::vector<std::unique_ptr<Usuario>>& getUsuarios() const;
+    [[nodiscard]] const std::vector<std::unique_ptr<Livro>>& getLivros() const;
 };

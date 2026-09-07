@@ -4,6 +4,7 @@
 
 class Biblioteca;
 class Usuario;
+class Livro;
 
 class Interface
 {
@@ -17,6 +18,8 @@ private:
 
     void mostrarCabecalho(const std::string& titulo);
     void confirmacaoValida(char confirmacao);
+    void mostrarLivro(const Livro& livro);
+    void mostrarSeparador();
 
 public:
     explicit Interface(Biblioteca& biblioteca);

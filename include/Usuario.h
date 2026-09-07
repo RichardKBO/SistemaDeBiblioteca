@@ -37,5 +37,5 @@ public:
 
     bool podeEmprestarLivro() const;
 
-    void listarLivros() const;
+    [[nodiscard]] const std::vector<Livro*>& getLivrosEmprestados() const;
 };
