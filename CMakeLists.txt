@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 4.3)
+cmake_minimum_required(VERSION 3.20)
 
-project(SistemaDeBiblioteca)
+project(SistemaDeBiblioteca LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(FetchContent)
 
@@ -11,6 +13,7 @@ if(NOT nlohmann_json_FOUND)
     FetchContent_Declare(
             nlohmann_json
             URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+            DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     )
     FetchContent_MakeAvailable(nlohmann_json)
 endif()
