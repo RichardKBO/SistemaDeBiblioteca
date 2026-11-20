@@ -6,9 +6,9 @@
 #include <vector>
 #include <string>
 
-#include <Livro.h>
-#include "Emprestimo.h"
-#include "Usuario.h"
+#include "domain/Livro.h"
+#include "domain/Emprestimo.h"
+#include "domain/Usuario.h"
 
 class Usuario;
 class IBibliotecaRepository;

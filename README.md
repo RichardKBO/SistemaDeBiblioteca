@@ -700,11 +700,10 @@ Os dados são carregados ao iniciar o programa e atualizados automaticamente ap�
 
 A arquitetura foi organizada para reduzir acoplamento e separar responsabilidades:
 
-* `Biblioteca` concentra as regras de negócio.
-* `IBibliotecaRepository` define o contrato de persistência.
-* `JsonBibliotecaRepository` implementa o armazenamento em JSON.
-* `IRelogio` define o contrato de obtenção de datas.
-* `RelogioSistema` fornece a data atual do sistema.
+* `domain` contém as entidades e exceções do negócio.
+* `application` contém `Biblioteca` e os contratos de persistência e relógio.
+* `infrastructure` contém o repositório JSON e o relógio do sistema.
+* `presentation` contém a interface de console.
 
 Essa composição permite substituir persistência e relógio sem alterar as regras da biblioteca.
 
@@ -820,24 +819,16 @@ Execute o programa gerado pelo CMake.
 SistemaDeBiblioteca/
 │
 ├── include/
-│   ├── Biblioteca.h
-│   ├── Ebook.h
-│   ├── Emprestimo.h
-│   ├── Exception.h
-│   ├── Interface.h
-│   ├── Livro.h
-│   ├── LivroFisico.h
-│   └── Usuario.h
+│   ├── domain/
+│   ├── application/
+│   ├── infrastructure/
+│   └── presentation/
 │
 ├── src/
-│   ├── Biblioteca.cpp
-│   ├── Ebook.cpp
-│   ├── Emprestimo.cpp
-│   ├── Exception.cpp
-│   ├── Interface.cpp
-│   ├── Livro.cpp
-│   ├── LivroFisico.cpp
-│   ├── Usuario.cpp
+│   ├── domain/
+│   ├── application/
+│   ├── infrastructure/
+│   ├── presentation/
 │   └── main.cpp
 │
 ├── CMakeLists.txt

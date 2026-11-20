@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IRelogio.h"
+#include "application/IRelogio.h"
 
 class RelogioSistema final : public IRelogio
 {

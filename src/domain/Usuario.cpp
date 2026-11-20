@@ -1,9 +1,9 @@
-﻿#include "Usuario.h"
-#include "Exception.h"
+#include "domain/Usuario.h"
+#include "domain/Exception.h"
 #include <algorithm>
 #include <cctype>
 
-#include "Livro.h"
+#include "domain/Livro.h"
 
 bool cpfValido(const std::string &cpf)
 {

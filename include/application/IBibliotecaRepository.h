@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BibliotecaSnapshot.h"
+#include "application/BibliotecaSnapshot.h"
 
 class IBibliotecaRepository
 {

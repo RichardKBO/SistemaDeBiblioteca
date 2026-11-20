@@ -20,28 +20,24 @@ endif()
 
 add_executable(SistemaDeBiblioteca
         src/main.cpp
-        src/Livro.cpp
-        src/Biblioteca.cpp
-        src/LivroFisico.cpp
-        src/Ebook.cpp
-        src/Usuario.cpp
-        src/JsonBibliotecaRepository.cpp
-        src/RelogioSistema.cpp
-        include/BibliotecaSnapshot.h
-        include/IBibliotecaRepository.h
-        include/IRelogio.h
-        include/JsonBibliotecaRepository.h
-        include/RelogioSistema.h
-        include/Emprestimo.h
-        src/Emprestimo.cpp
-        include/Interface.h
-        src/Interface.cpp
-        include/Exception.h
-        src/Exception.cpp
+        src/domain/Livro.cpp
+        src/domain/LivroFisico.cpp
+        src/domain/Ebook.cpp
+        src/domain/Usuario.cpp
+        src/domain/Emprestimo.cpp
+        src/domain/Exception.cpp
+        src/application/Biblioteca.cpp
+        src/infrastructure/JsonBibliotecaRepository.cpp
+        src/infrastructure/RelogioSistema.cpp
+        src/presentation/Interface.cpp
 )
 
 target_include_directories(SistemaDeBiblioteca PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/domain
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/application
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/infrastructure
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/presentation
 )
 
 target_link_libraries(SistemaDeBiblioteca PRIVATE nlohmann_json::nlohmann_json)

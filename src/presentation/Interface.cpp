@@ -1,9 +1,9 @@
-#include "Interface.h"
-#include "Biblioteca.h"
-#include "LivroFisico.h"
-#include "Ebook.h"
-#include "Usuario.h"
-#include "Exception.h"
+#include "presentation/Interface.h"
+#include "application/Biblioteca.h"
+#include "domain/LivroFisico.h"
+#include "domain/Ebook.h"
+#include "domain/Usuario.h"
+#include "domain/Exception.h"
 
 #include <iostream>
 #include <memory>
