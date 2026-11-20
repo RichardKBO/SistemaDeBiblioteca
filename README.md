@@ -2,10 +2,10 @@
 
 ![C++](https://img.shields.io/badge/C++-23-blue)
 ![CMake](https://img.shields.io/badge/CMake-4.3+-green)
-![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-green)
+![Status](https://img.shields.io/badge/Status-Projeto%20Concluído-success)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-O projeto está sendo desenvolvido de forma incremental, utilizando **Issues, Branches, Commits e Pull Requests** para organizar a evolução do sistema.
+O projeto foi concluído como um sistema completo de gerenciamento de biblioteca, desenvolvido com **C++23**, **CMake** e persistência em JSON com **nlohmann/json**.
 
 ---
 
@@ -690,24 +690,17 @@ Esse processo permite acompanhar a evolução do projeto e manter um histórico 
 
 ---
 
-# 🚀 Próximos passos
+# 💾 Persistência
 
-O próximo objetivo do desenvolvimento é continuar aprimorando a arquitetura e a qualidade do sistema.
+O sistema utiliza o arquivo `biblioteca.json` para armazenar livros, usuários, empréstimos ativos e histórico.
 
-Algumas melhorias planejadas:
-
-* Melhorar a interface do console.
-* Melhorar a centralização e organização das validações.
-* Implementar persistência dos dados.
-* Melhorar a separação entre interface e lógica de negócio.
-* Adicionar testes automatizados.
-* Avaliar a utilização de banco de dados em versões futuras.
+Os dados são carregados ao iniciar o programa e atualizados automaticamente após operações de cadastro, empréstimo, devolução e remoção.
 
 ---
 
 # 📊 Status
 
-**Versão 2.0 — Em desenvolvimento.**
+**Versão 2.0 — Projeto concluído.**
 
 ## Funcionalidades implementadas
 
@@ -741,17 +734,11 @@ Algumas melhorias planejadas:
 * [x] Tratamento de exceções
 * [x] Gerenciamento de memória com `std::unique_ptr`
 
-## Próxima implementação
+## Persistência concluída
 
-* [ ] Melhorias na arquitetura do sistema
-* [ ] Melhorias na interface do console
-
-## Futuras melhorias
-
-* [ ] Persistência dos dados
-* [ ] Testes automatizados
-* [ ] Banco de dados
-* [ ] Melhorias na interface
+* [x] Persistência dos dados em JSON
+* [x] Carregamento automático dos dados
+* [x] Salvamento automático das alterações
 
 ---
 

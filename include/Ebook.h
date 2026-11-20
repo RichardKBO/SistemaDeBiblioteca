@@ -12,6 +12,8 @@ public:
     Ebook(const std::string &titulo, const std::string &autor, const std::string &isbn, bool disponibilidade,
           double tamanhoArquivo);
 
+    [[nodiscard]] double getTamanhoArquivo() const;
+
     void emprestar() override;
 
     void devolver() override;

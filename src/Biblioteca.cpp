@@ -2,6 +2,9 @@
 #include "Usuario.h"
 #include "Emprestimo.h"
 #include "Exception.h"
+#include "LivroFisico.h"
+#include "Ebook.h"
+#include <nlohmann/json.hpp>
 
 #include <iostream>
 #include <vector>
@@ -11,6 +14,10 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
+#include <filesystem>
+
+using json = nlohmann::json;
 
 //Lógica pra gerenciamento das classes.
 
@@ -35,6 +42,186 @@ std::string obterDataAtual()
     return resultado.str();
 }
 
+Biblioteca::Biblioteca(const std::string &arquivoDados)
+    : arquivoDados_(arquivoDados)
+{
+    carregarDados();
+}
+
+Biblioteca::~Biblioteca()
+{
+    try
+    {
+        salvarDados();
+    }
+    catch (...)
+    {
+    }
+}
+
+void Biblioteca::salvarDados() const
+{
+    json dados;
+    dados["livros"] = json::array();
+
+    for (const auto &livro : livros_)
+    {
+        json livroJson;
+        livroJson["titulo"] = livro->getTitulo();
+        livroJson["autor"] = livro->getAutor();
+        livroJson["isbn"] = livro->getISBN();
+        livroJson["disponivel"] = livro->getDisponibilidade();
+
+        if (const auto fisico = dynamic_cast<const LivroFisico *>(livro.get()))
+        {
+            livroJson["tipo"] = "fisico";
+            livroJson["paginas"] = fisico->getQuantidadeDePaginas();
+        }
+        else if (const auto ebook = dynamic_cast<const Ebook *>(livro.get()))
+        {
+            livroJson["tipo"] = "ebook";
+            livroJson["tamanhoArquivo"] = ebook->getTamanhoArquivo();
+        }
+
+        dados["livros"].push_back(livroJson);
+    }
+
+    dados["usuarios"] = json::array();
+    for (const auto &usuario : usuarios_)
+    {
+        json usuarioJson;
+        usuarioJson["nome"] = usuario->getNome();
+        usuarioJson["cpf"] = usuario->getCpf();
+        usuarioJson["numeroDeCadastro"] = usuario->getNumeroDeCadastro();
+        usuarioJson["livrosEmprestados"] = json::array();
+
+        for (const Livro *livro : usuario->getLivrosEmprestados())
+        {
+            usuarioJson["livrosEmprestados"].push_back(livro->getISBN());
+        }
+
+        dados["usuarios"].push_back(usuarioJson);
+    }
+
+    dados["historico"] = json::array();
+    for (const Emprestimo &emprestimo : historico_)
+    {
+        dados["historico"].push_back({
+            {"numeroDeCadastroUsuario", emprestimo.getNumeroDeCadastroUsuario()},
+            {"isbn", emprestimo.getIsbn()},
+            {"dataEmprestimo", emprestimo.getDataEmprestimo()},
+            {"dataDevolucao", emprestimo.getDataDevolucao()}
+        });
+    }
+
+    const std::filesystem::path caminho(arquivoDados_);
+    if (caminho.has_parent_path())
+    {
+        std::filesystem::create_directories(caminho.parent_path());
+    }
+
+    std::ofstream arquivo(caminho);
+    if (!arquivo)
+    {
+        throw BibliotecaException("Não foi possível abrir o arquivo de persistência.");
+    }
+
+    arquivo << dados.dump(4) << '\n';
+    if (!arquivo)
+    {
+        throw BibliotecaException("Não foi possível salvar os dados da biblioteca.");
+    }
+}
+
+void Biblioteca::carregarDados()
+{
+    std::ifstream arquivo(arquivoDados_);
+    if (!arquivo)
+    {
+        return;
+    }
+
+    json dados;
+    try
+    {
+        arquivo >> dados;
+    }
+    catch (const json::parse_error &erro)
+    {
+        throw BibliotecaException("Arquivo de persistência inválido: " + std::string(erro.what()));
+    }
+
+    livros_.clear();
+    usuarios_.clear();
+    historico_.clear();
+
+    if (dados.contains("livros"))
+    {
+        for (const auto &livroJson : dados["livros"])
+        {
+            const std::string tipo = livroJson.value("tipo", "");
+            const std::string titulo = livroJson.at("titulo").get<std::string>();
+            const std::string autor = livroJson.at("autor").get<std::string>();
+            const std::string isbn = livroJson.at("isbn").get<std::string>();
+            const bool disponivel = livroJson.value("disponivel", true);
+
+            if (tipo == "fisico")
+            {
+                livros_.push_back(std::make_unique<LivroFisico>(
+                    titulo, autor, isbn, disponivel, livroJson.at("paginas").get<int>()
+                ));
+            }
+            else if (tipo == "ebook")
+            {
+                livros_.push_back(std::make_unique<Ebook>(
+                    titulo, autor, isbn, disponivel, livroJson.at("tamanhoArquivo").get<double>()
+                ));
+            }
+            else
+            {
+                throw BibliotecaException("Tipo de livro desconhecido no arquivo de persistência.");
+            }
+        }
+    }
+
+    if (dados.contains("usuarios"))
+    {
+        for (const auto &usuarioJson : dados["usuarios"])
+        {
+            auto usuario = std::make_unique<Usuario>(
+                usuarioJson.at("nome").get<std::string>(),
+                usuarioJson.at("cpf").get<std::string>(),
+                usuarioJson.at("numeroDeCadastro").get<int>()
+            );
+
+            if (usuarioJson.contains("livrosEmprestados"))
+            {
+                for (const auto &isbnJson : usuarioJson["livrosEmprestados"])
+                {
+                    const std::string isbn = isbnJson.get<std::string>();
+                    Livro *livro = buscarLivro(isbn);
+                    usuario->adicionarLivro(livro);
+                }
+            }
+
+            usuarios_.push_back(std::move(usuario));
+        }
+    }
+
+    if (dados.contains("historico"))
+    {
+        for (const auto &emprestimoJson : dados["historico"])
+        {
+            historico_.emplace_back(
+                emprestimoJson.at("numeroDeCadastroUsuario").get<int>(),
+                emprestimoJson.at("isbn").get<std::string>(),
+                emprestimoJson.at("dataEmprestimo").get<std::string>(),
+                emprestimoJson.value("dataDevolucao", "")
+            );
+        }
+    }
+}
+
 void Biblioteca::adicionarLivro(std::unique_ptr<Livro> livro)
 {
     for (const auto& livroExistente : livros_)
@@ -49,6 +236,7 @@ void Biblioteca::adicionarLivro(std::unique_ptr<Livro> livro)
     }
 
     livros_.push_back(std::move(livro));
+    salvarDados();
 }
 
 void Biblioteca::cadastrarUsuario(std::unique_ptr<Usuario> usuario)
@@ -74,6 +262,7 @@ void Biblioteca::cadastrarUsuario(std::unique_ptr<Usuario> usuario)
     }
 
     usuarios_.push_back(std::move(usuario));
+    salvarDados();
 }
 
 Usuario* Biblioteca::buscarUsuario(int numeroDeCadastro) const // Função pra busca de usuários por número de cadastro.
@@ -115,6 +304,7 @@ bool Biblioteca::removerUsuario(int numeroDeCadastro) // Função para remover u
     }
 
     usuarios_.erase(it);
+    salvarDados();
 
     return true;
 }
@@ -193,6 +383,7 @@ Livro* Biblioteca::emprestarLivro(const std::string& isbn, Usuario& usuario)
                 obterDataAtual()
                 );
 
+            salvarDados();
             return livro.get();
         }
     }
@@ -217,6 +408,7 @@ bool Biblioteca::removerLivro(const std::string &isbn)
     }
 
     livros_.erase(it);
+    salvarDados();
 
     return true;
 }
@@ -253,11 +445,10 @@ Livro* Biblioteca::devolverLivro(const std::string &isbn, Usuario& usuario)
             livro->devolver();
 
             usuario.devolverLivro(livro.get());
+            salvarDados();
 
             return livro.get();
         }
     }
     throw LivroNaoEncontradoException("Livro não encontrado.");
 }
-
-

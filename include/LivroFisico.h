@@ -10,6 +10,8 @@ public:
     LivroFisico(const std::string &titulo, const std::string &autor, const std::string &isbn, bool disponibilidade,
                 int quantidadeDePaginas);
 
+    [[nodiscard]] int getQuantidadeDePaginas() const;
+
     void emprestar() override;
 
     void devolver() override;

@@ -12,7 +12,8 @@ public:
     Emprestimo(
         int numeroDeCadastroUsuario,
         const std::string &isbn,
-        const std::string &dataEmprestimo
+        const std::string &dataEmprestimo,
+        const std::string &dataDevolucao = ""
     );
 
     void registrarDevolucao(const std::string &dataDevolucao);
