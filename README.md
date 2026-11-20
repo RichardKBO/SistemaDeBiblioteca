@@ -696,6 +696,18 @@ O sistema utiliza o arquivo `biblioteca.json` para armazenar livros, usuários, 
 
 Os dados são carregados ao iniciar o programa e atualizados automaticamente após operações de cadastro, empréstimo, devolução e remoção.
 
+# 🧱 Arquitetura SOLID
+
+A arquitetura foi organizada para reduzir acoplamento e separar responsabilidades:
+
+* `Biblioteca` concentra as regras de negócio.
+* `IBibliotecaRepository` define o contrato de persistência.
+* `JsonBibliotecaRepository` implementa o armazenamento em JSON.
+* `IRelogio` define o contrato de obtenção de datas.
+* `RelogioSistema` fornece a data atual do sistema.
+
+Essa composição permite substituir persistência e relógio sem alterar as regras da biblioteca.
+
 ---
 
 # 📊 Status

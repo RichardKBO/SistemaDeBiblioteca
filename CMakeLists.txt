@@ -25,6 +25,13 @@ add_executable(SistemaDeBiblioteca
         src/LivroFisico.cpp
         src/Ebook.cpp
         src/Usuario.cpp
+        src/JsonBibliotecaRepository.cpp
+        src/RelogioSistema.cpp
+        include/BibliotecaSnapshot.h
+        include/IBibliotecaRepository.h
+        include/IRelogio.h
+        include/JsonBibliotecaRepository.h
+        include/RelogioSistema.h
         include/Emprestimo.h
         src/Emprestimo.cpp
         include/Interface.h

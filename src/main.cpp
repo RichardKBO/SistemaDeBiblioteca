@@ -1,6 +1,8 @@
 ﻿#include "Biblioteca.h"
 #include "Interface.h"
 #include "Exception.h"
+#include "JsonBibliotecaRepository.h"
+#include "RelogioSistema.h"
 
 #include <clocale>
 #include <stdexcept>
@@ -22,7 +24,9 @@ int main()
 {
     setlocale(LC_ALL, "pt_BR.UTF-8");
 
-    Biblioteca biblioteca;
+    JsonBibliotecaRepository repositorio("biblioteca.json");
+    RelogioSistema relogio;
+    Biblioteca biblioteca(repositorio, relogio);
 
     Interface interface(biblioteca);
 

@@ -8,7 +8,12 @@
 
 #include <Livro.h>
 #include "Emprestimo.h"
+#include "Usuario.h"
+
 class Usuario;
+class IBibliotecaRepository;
+class IRelogio;
+struct BibliotecaSnapshot;
 
 class Biblioteca
 {
@@ -16,14 +21,15 @@ private:
     std::vector<std::unique_ptr<Livro> > livros_;
     std::vector<std::unique_ptr<Usuario> > usuarios_;
     std::vector<Emprestimo> historico_;
-    std::string arquivoDados_;
+    IBibliotecaRepository &repositorio_;
+    IRelogio &relogio_;
+
+    void carregarDados();
+    void salvarDados() const;
+    [[nodiscard]] BibliotecaSnapshot criarSnapshot() const;
 
 public:
-    explicit Biblioteca(const std::string &arquivoDados = "biblioteca.json");
-    ~Biblioteca();
-
-    void salvarDados() const;
-    void carregarDados();
+    Biblioteca(IBibliotecaRepository &repositorio, IRelogio &relogio);
 
     void adicionarLivro(std::unique_ptr<Livro> livro);
 
