@@ -1,8 +1,8 @@
-﻿#include "Biblioteca.h"
-#include "Interface.h"
-#include "Exception.h"
-#include "JsonBibliotecaRepository.h"
-#include "RelogioSistema.h"
+﻿#include "application/Biblioteca.h"
+#include "presentation/Interface.h"
+#include "domain/Exception.h"
+#include "infrastructure/JsonBibliotecaRepository.h"
+#include "infrastructure/RelogioSistema.h"
 
 #include <clocale>
 #include <stdexcept>

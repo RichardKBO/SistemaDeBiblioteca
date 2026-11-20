@@ -1,12 +1,12 @@
-#include "Biblioteca.h"
-#include "BibliotecaSnapshot.h"
-#include "IBibliotecaRepository.h"
-#include "IRelogio.h"
-#include "Usuario.h"
-#include "Emprestimo.h"
-#include "Exception.h"
-#include "LivroFisico.h"
-#include "Ebook.h"
+#include "application/Biblioteca.h"
+#include "application/BibliotecaSnapshot.h"
+#include "application/IBibliotecaRepository.h"
+#include "application/IRelogio.h"
+#include "domain/Usuario.h"
+#include "domain/Emprestimo.h"
+#include "domain/Exception.h"
+#include "domain/LivroFisico.h"
+#include "domain/Ebook.h"
 
 #include <algorithm>
 #include <iostream>
