@@ -16,8 +16,15 @@ private:
     std::vector<std::unique_ptr<Livro> > livros_;
     std::vector<std::unique_ptr<Usuario> > usuarios_;
     std::vector<Emprestimo> historico_;
+    std::string arquivoDados_;
 
 public:
+    explicit Biblioteca(const std::string &arquivoDados = "biblioteca.json");
+    ~Biblioteca();
+
+    void salvarDados() const;
+    void carregarDados();
+
     void adicionarLivro(std::unique_ptr<Livro> livro);
 
     void cadastrarUsuario(std::unique_ptr<Usuario> usuario);

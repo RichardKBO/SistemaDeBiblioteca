@@ -18,6 +18,11 @@ Ebook::Ebook(const std::string &titulo, const std::string &autor, const std::str
     }
 }
 
+double Ebook::getTamanhoArquivo() const
+{
+    return tamanhoArquivo;
+}
+
 void Ebook::emprestar()
 {
     if (disponibilidade)

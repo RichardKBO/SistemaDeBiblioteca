@@ -13,6 +13,11 @@ LivroFisico::LivroFisico(const std::string &titulo, const std::string &autor, co
     }
 }
 
+int LivroFisico::getQuantidadeDePaginas() const
+{
+    return quantidadeDePaginas;
+}
+
 //Lógica de negócio para Biblioteca.
 
 void LivroFisico::emprestar()

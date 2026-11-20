@@ -6,11 +6,13 @@
 Emprestimo::Emprestimo(
     int numeroDeCadastroUsuario,
     const std::string &isbn,
-    const std::string &dataEmprestimo
+    const std::string &dataEmprestimo,
+    const std::string &dataDevolucao
 )
     : numeroDeCadastroUsuario_(numeroDeCadastroUsuario),
       isbn_(isbn),
-      dataEmprestimo_(dataEmprestimo)
+      dataEmprestimo_(dataEmprestimo),
+      dataDevolucao_(dataDevolucao)
 {
     if (dataEmprestimo.empty())
     {

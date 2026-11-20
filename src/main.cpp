@@ -1,6 +1,5 @@
 ﻿#include "Biblioteca.h"
 #include "Interface.h"
-#include "Usuario.h"
 #include "Exception.h"
 
 #include <clocale>

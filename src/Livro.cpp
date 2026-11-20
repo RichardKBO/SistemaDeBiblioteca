@@ -40,11 +40,5 @@ std::string Livro::getISBN() const
 
 bool Livro::getDisponibilidade() const
 {
-    if (disponibilidade == true)
-    {
-        return "Disponibilidade: Diponível";
-    } else
-    {
-        return "Disponibilidade: Indisponivel";
-    }
+    return disponibilidade;
 }
