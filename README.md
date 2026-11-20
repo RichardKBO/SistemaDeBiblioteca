@@ -1,7 +1,7 @@
 # 📚 Sistema de Biblioteca
 
 ![C++](https://img.shields.io/badge/C++-23-blue)
-![CMake](https://img.shields.io/badge/CMake-4.3+-green)
+![CMake](https://img.shields.io/badge/CMake-3.20+-green)
 ![Status](https://img.shields.io/badge/Status-Projeto%20Concluído-success)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
@@ -762,7 +762,7 @@ Projeto desenvolvido como prática de aprendizado e aplicação de conceitos de 
 ## Pré-requisitos
 
 * C++23
-* CMake 4.3+
+* CMake 3.20+
 * Compilador C++ compatível
 
 ## Compilação
@@ -836,10 +836,6 @@ SistemaDeBiblioteca/
 
 ## 📌 Observação
 
-Este projeto está em desenvolvimento contínuo.
-
-As funcionalidades são implementadas gradualmente, testadas e integradas ao projeto através do Git e GitHub.
-
-O objetivo é utilizar o projeto como prática contínua de **C++, Programação Orientada a Objetos, STL, gerenciamento de memória, validação de dados, regras de negócio, tratamento de exceções e desenvolvimento de software**.
+Projeto concluído, com persistência local em JSON e todas as funcionalidades principais implementadas.
 
 Novas funcionalidades serão adicionadas conforme a evolução do projeto.
